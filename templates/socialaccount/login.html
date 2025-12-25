@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <img class="mx-auto h-16 w-auto object-contain" src="{% static 'images/logo.png' %}" alt="Manyan IP Services">
+        
+        <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+            {% trans "Sign In" %}
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+            {% blocktrans with provider.name as provider %}You are about to connect your {{ provider }} account.{% endblocktrans %}
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-xl sm:rounded-lg sm:px-10 border border-gray-200">
+            
+            <div class="flex justify-center mb-6">
+                <div class="h-16 w-16 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="h-8 w-8">
+                </div>
+            </div>
+
+            <p class="text-center text-gray-700 mb-6 text-sm">
+                To continue to <strong>Manyan IP Services</strong>, please click the button below to authorize Google.
+            </p>
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <button type="submit" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                    Continue to Google
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <a href="{% url 'account_login' %}" class="text-sm font-medium text-gray-400 hover:text-gray-600 transition">
+                    Cancel and go back
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

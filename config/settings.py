@@ -217,3 +217,15 @@ DatabaseFeatures.uses_server_side_cursors = False
 
 PASSWORD_RESET_TIMEOUT = 300
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5 / 1440
+
+
+# ... (Purani settings ke neeche add karo)
+
+# 1. Agar email same hai, toh automatically connect kar do
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
+# 2. Social account se aayi email ko verify karne ki zaroorat nahi (Google verified hai)
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
+
+# 3. Agar user exist karta hai, toh login hone do
+SOCIALACCOUNT_QUERY_EMAIL = True
