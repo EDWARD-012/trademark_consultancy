@@ -214,3 +214,6 @@ DEFAULT_FROM_EMAIL = 'Manyan IP Services <no.reply.manyan@gmail.com>'
 
 from django.db.backends.postgresql.features import DatabaseFeatures
 DatabaseFeatures.uses_server_side_cursors = False
+
+PASSWORD_RESET_TIMEOUT = 300
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5 / 1440
