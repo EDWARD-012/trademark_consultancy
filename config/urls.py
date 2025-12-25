@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from core.views import home, contact  # Import contact
-from services.views import check_status
+from services.views import check_status, service_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('status/', check_status, name='check_status'),
     path('contact/', contact, name='contact'), # New Path
+    path('services/<slug:slug>/', service_detail, name='service_detail'),
 ]

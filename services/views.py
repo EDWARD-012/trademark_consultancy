@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Service
 from .forms import StatusCheckForm
 
 def check_status(request):
@@ -35,3 +36,11 @@ def check_status(request):
         form = StatusCheckForm()
 
     return render(request, 'services/status.html', {'form': form, 'result': result})
+
+def service_detail(request, slug):
+    # Fetch the specific service or show 404 error if not found
+    service = get_object_or_404(Service, slug=slug)
+    
+    return render(request, 'services/service_detail.html', {
+        'service': service
+    })

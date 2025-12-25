@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="bg-primary text-white py-12 lg:py-20">
+    <div class="max-w-screen-xl mx-auto px-4 text-center">
+        <div class="inline-flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-white/10 mb-6 text-gold">
+            <i class="{{ service.icon_class }} text-2xl lg:text-3xl"></i>
+        </div>
+        <h1 class="text-3xl lg:text-5xl font-extrabold mb-4">{{ service.title }}</h1>
+        <p class="text-lg lg:text-xl text-blue-100 max-w-2xl mx-auto">{{ service.short_description }}</p>
+    </div>
+</section>
+
+<section class="bg-white py-10 lg:py-16">
+    <div class="max-w-6xl mx-auto px-4 grid gap-8 lg:gap-12 lg:grid-cols-3">
+        
+        <div class="lg:col-span-2 order-2 lg:order-1">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Service Details</h2>
+            <div class="prose prose-blue max-w-none text-gray-600 space-y-4 text-justify">
+                {{ service.full_description|linebreaks }}
+            </div>
+            
+            <div class="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-100">
+                <h3 class="font-bold text-primary mb-2">Why choose Manyan IP?</h3>
+                <ul class="space-y-3 text-gray-700">
+                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> Expert Legal Verification</li>
+                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> Same Day Filing Support</li>
+                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> Transparent Pricing</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lg:col-span-1 order-1 lg:order-2">
+            <div class="relative lg:sticky lg:top-24 bg-white rounded-xl shadow-lg border border-gray-200 p-6 z-10">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Get Started</h3>
+                <p class="text-gray-500 text-sm mb-6">Secure your business today.</p>
+                
+                {% if service.price %}
+                <div class="mb-6">
+                    <span class="text-3xl font-bold text-gray-900">₹{{ service.price }}</span>
+                    <span class="text-gray-500">/ starting</span>
+                </div>
+                {% endif %}
+
+                <a href="{% url 'contact' %}?service={{ service.title }}" class="block w-full text-center text-white bg-primary hover:bg-secondary font-bold rounded-lg px-5 py-3 transition-colors mb-4 shadow-md">
+                    Book Consultation
+                </a>
+                
+                <div class="text-center">
+                    <a href="https://wa.me/919876543210?text=I'm interested in {{ service.title }}" target="_blank" class="text-green-600 font-medium text-sm inline-flex items-center hover:bg-green-50 px-3 py-2 rounded-lg transition">
+                        <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
