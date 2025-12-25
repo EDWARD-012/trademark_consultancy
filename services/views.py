@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Service
+from django.contrib.auth.decorators import login_required
 from .forms import StatusCheckForm
-
+@login_required
 def check_status(request):
     result = None
     if request.method == 'POST':
@@ -36,7 +37,7 @@ def check_status(request):
         form = StatusCheckForm()
 
     return render(request, 'services/status.html', {'form': form, 'result': result})
-
+@login_required
 def service_detail(request, slug):
     # Fetch the specific service or show 404 error if not found
     service = get_object_or_404(Service, slug=slug)

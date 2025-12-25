@@ -34,6 +34,7 @@ def home(request):
         'form': form
     })
 
+@login_required
 def contact(request):
     if request.method == 'POST':
         form = LeadForm(request.POST)

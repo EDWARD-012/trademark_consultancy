@@ -114,10 +114,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-        conn_max_age=600,
-        ssl_require=True
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=0,      # Neon requirement
+        ssl_require=True,
     )
 }
 
@@ -166,3 +166,51 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Backend for Development (Prints to Console)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# ... existing settings ...
+
+# --- AUTHENTICATION & ALLAUTH SETTINGS ---
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+ACCOUNT_LOGIN_METHODS = {'email'}
+# 1. Force Email to be Required
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False  # Optional: Users can just use email
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # Users log in with email, not username
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # User CANNOT log in until they verify email
+
+# 2. Login/Logout Behavior
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'account_login'
+
+# 3. Google Settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# --- SMTP EMAIL SETTINGS (Gmail Example) ---
+# This sends the actual email.
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# Load these from .env for security (or hardcode temporarily for testing)
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') 
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') # Generate this in Google Account > Security > App Passwords
+DEFAULT_FROM_EMAIL = 'Manyan IP Services <no.reply.manyan@gmail.com>'
+
+from django.db.backends.postgresql.features import DatabaseFeatures
+DatabaseFeatures.uses_server_side_cursors = False
