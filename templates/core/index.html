@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="bg-white dark:bg-gray-900">
+    </section>
+
+<section class="bg-gray-50 py-16">
+    <div class="max-w-screen-xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-primary sm:text-4xl">Our Professional Services</h2>
+            <p class="mt-4 text-lg text-gray-500">Comprehensive Legal, IP, and Tax Solutions for your Business.</p>
+        </div>
+
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {% for service in services %}
+            <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-8 border-t-4 border-primary">
+                <div class="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-blue-100 text-primary">
+                    <i class="{{ service.icon_class }} text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ service.title }}</h3>
+                <p class="text-gray-500 mb-4">{{ service.short_description }}</p>
+                <a href="#" class="text-primary font-medium hover:text-secondary inline-flex items-center">
+                    Learn more
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="bg-white py-16" id="contact">
+    <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Get a Free Consultation</h2>
+        <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">Need help with Trademark filing or GST compliance? Fill the form below.</p>
+        
+        {% if messages %}
+            {% for message in messages %}
+            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
+                <span class="font-medium">{{ message }}</span>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <form action="." method="POST" class="space-y-8">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Your Name</label>
+                {{ form.name }}
+            </div>
+            
+            <div class="grid md:grid-cols-2 md:gap-6">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
+                    {{ form.phone }}
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">Email Address</label>
+                    {{ form.email }}
+                </div>
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Service Required</label>
+                {{ form.service }}
+            </div>
+
+            <div class="sm:col-span-2">
+                <label class="block mb-2 text-sm font-medium text-gray-900">Your Message</label>
+                {{ form.message }}
+            </div>
+
+            <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary sm:w-fit hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-blue-300">
+                Send Enquiry
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}
