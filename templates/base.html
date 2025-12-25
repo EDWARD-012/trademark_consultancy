@@ -62,6 +62,23 @@
                     <li><a href="{% url 'home' %}#services" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0">Services</a></li>
                     <li><a href="{% url 'check_status' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0">Trademark Status</a></li>
                     <li><a href="{% url 'contact' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0">Contact Us</a></li>
+
+                    {% if user.is_authenticated %}
+                        <li>
+                            <form action="{% url 'logout' %}" method="post" class="inline">
+                                {% csrf_token %}
+                                <button type="submit" class="block py-2 px-3 text-red-600 font-bold hover:bg-gray-100 md:hover:bg-transparent md:p-0">
+                                    Logout ({{ user.username }})
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'login' %}" class="block py-2 px-3 text-primary font-bold hover:bg-gray-100 md:hover:bg-transparent md:p-0">
+                                Login
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

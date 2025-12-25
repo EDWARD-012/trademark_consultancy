@@ -3,6 +3,7 @@ from django.contrib import messages
 from services.models import Service
 from leads.forms import LeadForm
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     services = Service.objects.filter(is_active=True)[:6]
@@ -44,3 +45,9 @@ def contact(request):
         form = LeadForm()
     
     return render(request, 'core/contact.html', {'form': form})
+
+@login_required
+def dashboard(request):
+    return render(request, 'core/dashboard.html', {
+        'user': request.user
+    })
