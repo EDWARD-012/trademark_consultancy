@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="bg-gray-50 py-16 min-h-screen">
+    <div class="max-w-xl mx-auto px-4">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-extrabold text-primary">Track Your Trademark</h1>
+            <p class="mt-2 text-gray-500">Enter your application number to check real-time status.</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-6">
+                    <label class="block mb-2 text-sm font-medium text-gray-900">Application Number</label>
+                    {{ form.application_no }}
+                </div>
+                <button type="submit" class="w-full text-white bg-primary hover:bg-secondary focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    Check Status
+                </button>
+            </form>
+        </div>
+
+        {% if result %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 
+            {% if result.color == 'green' %} border-green-500 {% elif result.color == 'red' %} border-red-500 {% else %} border-yellow-400 {% endif %}">
+            
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-gray-500 text-sm">App No: <span class="font-mono font-bold">{{ result.app_no }}</span></span>
+                    
+                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
+                        {% if result.color == 'green' %} bg-green-100 text-green-800 
+                        {% elif result.color == 'red' %} bg-red-100 text-red-800 
+                        {% else %} bg-yellow-100 text-yellow-800 {% endif %}">
+                        {{ result.status }}
+                    </span>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Current Status</h3>
+                <p class="text-gray-600">{{ result.message }}</p>
+
+                {% if result.color == 'red' %}
+                <div class="mt-6">
+                    <a href="/#contact" class="block w-full text-center text-red-600 border border-red-600 hover:bg-red-50 font-medium rounded-lg text-sm px-5 py-2.5">
+                        <i class="fa-solid fa-phone mr-2"></i> Get Legal Help Now
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}

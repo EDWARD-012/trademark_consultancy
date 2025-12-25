@@ -32,3 +32,15 @@ def home(request):
         'services': services, 
         'form': form
     })
+
+def contact(request):
+    if request.method == 'POST':
+        form = LeadForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Enquiry Sent! We will call you shortly.")
+            return redirect('contact')
+    else:
+        form = LeadForm()
+    
+    return render(request, 'core/contact.html', {'form': form})
