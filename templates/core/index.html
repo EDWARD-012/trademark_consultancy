@@ -129,4 +129,82 @@
     </div>
 </section>
 
+<div id="legal-disclaimer-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[60] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/60 backdrop-blur-sm">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow-2xl border-t-4 border-gold">
+            
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                    <i class="fa-solid fa-scale-balanced text-primary mr-3"></i>
+                    Important Legal Disclaimer
+                </h3>
+            </div>
+
+            <div class="p-4 md:p-5 space-y-4">
+                <p class="text-base leading-relaxed text-gray-600">
+                    <strong>Manyan IP Services</strong> is a private legal consultancy firm acting as a facilitator for Trademark & IP registration.
+                </p>
+                
+                <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2">
+                    <li>We are <strong>NOT</strong> the Government of India or the "Controller General of Patents, Designs and Trade Marks".</li>
+                    <li>We are a team of attorneys and legal experts who assist in filing and managing applications.</li>
+                    <li>The final grant of a Trademark is solely at the discretion of the Government Registry. No consultancy can guarantee registration.</li>
+                </ul>
+
+                <div class="bg-blue-50 p-3 rounded border border-blue-100 text-xs text-blue-800 mt-2">
+                    Please acknowledge that you are hiring us for professional legal assistance and not for any government-issued guarantee.
+                </div>
+            </div>
+
+            <div class="p-4 md:p-5 border-t border-gray-200 rounded-b bg-gray-50">
+                
+                <div class="flex items-center mb-4">
+                    <input id="disclaimer-checkbox" type="checkbox" value="" class="w-5 h-5 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2 cursor-pointer">
+                    <label for="disclaimer-checkbox" class="ms-2 text-sm font-medium text-gray-900 cursor-pointer select-none">
+                        I have read and understood the disclaimer above.
+                    </label>
+                </div>
+
+                <div class="flex justify-end">
+                    <button id="accept-btn" onclick="acceptDisclaimer()" type="button" disabled class="text-white bg-primary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center opacity-50 cursor-not-allowed transition-all">
+                        Agree & Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. SHOW MODAL ALWAYS (Removed sessionStorage check)
+        const modal = document.getElementById('legal-disclaimer-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        // 2. Button Logic (Checkbox)
+        const checkbox = document.getElementById('disclaimer-checkbox');
+        const btn = document.getElementById('accept-btn');
+
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        });
+    });
+
+    function acceptDisclaimer() {
+        // Just hide the modal
+        const modal = document.getElementById('legal-disclaimer-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        
+        // We do NOT save to session storage anymore
+    }
+</script>
+
 {% endblock %}
