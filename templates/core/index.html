@@ -9,16 +9,12 @@
     </div>
     
     <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-        
-        
-
         <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
             Secure Your <span class="text-gold">Brand Identity</span>
         </h1>
         <p class="text-lg md:text-xl text-blue-100 max-w-2xl mb-10">
             India's most trusted platform for Trademark Registration, Company Incorporation, and Legal Compliance.
         </p>
-        
         <div class="flex flex-col sm:flex-row gap-4">
             {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}" class="bg-gold text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition transform hover:scale-105 shadow-lg text-center">
@@ -114,9 +110,7 @@
                 </div>
             </div>
             {% empty %}
-                <div class="col-span-3 text-gray-500 py-10">
-                    <p>No services found in the database.</p>
-                </div>
+                <div class="col-span-3 text-gray-500">No services found. Run the setup script.</div>
             {% endfor %}
         </div>
         
@@ -137,15 +131,10 @@
                 <div class="p-10 text-white flex flex-col justify-center">
                     <h3 class="text-3xl font-bold mb-4">Request a Callback</h3>
                     <p class="text-blue-100 mb-6">Confused about which service to choose? Fill this form and our legal expert will call you within 24 hours.</p>
-                    <div class="flex items-center space-x-3 mb-2">
-                        <i class="fa-solid fa-phone"></i> <span>+91 98765 43210</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <i class="fa-solid fa-envelope"></i> <span>support@manyan.com</span>
-                    </div>
                 </div>
                 
                 <div class="p-10 bg-white relative">
+                    
                     <form id="ajax-lead-form" method="POST" class="space-y-4">
                         {% csrf_token %}
                         
@@ -175,14 +164,70 @@
                         </button>
                     </form>
 
-                    <div id="form-message" class="hidden mt-4 p-4 rounded-lg text-center font-bold text-sm"></div>
+                    <div id="form-message" class="hidden mt-4 p-4 rounded-lg text-center font-bold text-sm">
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<div id="legal-disclaimer-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[60] justify-center items-center w-full md:inset-0 h-screen max-h-screen bg-black/60 backdrop-blur-sm">
+<script>
+    document.getElementById('ajax-lead-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // Page Reload Roko
+
+        const form = this;
+        const formData = new FormData(form);
+        const msgBox = document.getElementById('form-message');
+        const btn = document.getElementById('submit-btn');
+        const originalBtnText = btn.innerText;
+
+        // 1. Loading State
+        btn.innerText = "Sending...";
+        btn.disabled = true;
+        msgBox.classList.add('hidden'); // Hide purana message if any
+
+        // 2. Send Data
+        fetch("{% url 'submit_lead_ajax' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 3. Reset Button
+            btn.innerText = originalBtnText;
+            btn.disabled = false;
+            
+            // 4. Show Message
+            msgBox.classList.remove('hidden'); // Box dikhao
+
+            if (data.status === 'success') {
+                // ✅ Success Design
+                msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-green-100 text-green-800 border border-green-300";
+                msgBox.innerText = data.message;
+                form.reset(); // Form clear karo
+            } else {
+                // ❌ Error Design
+                msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-red-100 text-red-800 border border-red-300";
+                msgBox.innerText = "Error: " + data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            btn.innerText = originalBtnText;
+            btn.disabled = false;
+            msgBox.classList.remove('hidden');
+            msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-red-100 text-red-800";
+            msgBox.innerText = "Network Error! Please check your internet.";
+        });
+    });
+</script>
+
+<div id="legal-disclaimer-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[60] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/60 backdrop-blur-sm">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <div class="relative bg-white rounded-lg shadow-2xl border-t-4 border-gold">
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
@@ -197,7 +242,6 @@
                 <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2">
                     <li>We are <strong>NOT</strong> the Government of India.</li>
                     <li>The final grant of a Trademark is solely at the discretion of the Government Registry.</li>
-                    <li>We provide legal assistance and filing services based on user inputs.</li>
                 </ul>
             </div>
             <div class="p-4 md:p-5 border-t border-gray-200 rounded-b bg-gray-50 flex justify-end">
@@ -210,74 +254,15 @@
 </div>
 
 <script>
-    // 1. AJAX Form Handling
-    document.getElementById('ajax-lead-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const form = this;
-        const formData = new FormData(form);
-        const msgBox = document.getElementById('form-message');
-        const btn = document.getElementById('submit-btn');
-        const originalBtnText = btn.innerText;
-
-        // UI Loading State
-        btn.innerText = "Sending...";
-        btn.disabled = true;
-        btn.classList.add('opacity-50', 'cursor-not-allowed');
-        msgBox.classList.add('hidden');
-
-        fetch("{% url 'submit_lead_ajax' %}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Reset Button
-            btn.innerText = originalBtnText;
-            btn.disabled = false;
-            btn.classList.remove('opacity-50', 'cursor-not-allowed');
-            
-            msgBox.classList.remove('hidden');
-
-            if (data.status === 'success') {
-                msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-green-100 text-green-800 border border-green-300";
-                msgBox.innerText = data.message;
-                form.reset();
-            } else {
-                msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-red-100 text-red-800 border border-red-300";
-                msgBox.innerText = "Error: " + data.message;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            btn.innerText = originalBtnText;
-            btn.disabled = false;
-            btn.classList.remove('opacity-50', 'cursor-not-allowed');
-            msgBox.classList.remove('hidden');
-            msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-red-100 text-red-800";
-            msgBox.innerText = "Network Error! Please check your internet connection.";
-        });
-    });
-
-    // 2. Smart Disclaimer Modal (Only shows once per user)
     document.addEventListener("DOMContentLoaded", function() {
-        // Check LocalStorage to see if user has already accepted
-        if (!localStorage.getItem('disclaimerAccepted')) {
-            const modal = document.getElementById('legal-disclaimer-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
+        // Show modal on load
+        document.getElementById('legal-disclaimer-modal').classList.remove('hidden');
+        document.getElementById('legal-disclaimer-modal').classList.add('flex');
     });
 
     function closeDisclaimer() {
-        const modal = document.getElementById('legal-disclaimer-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        // Save preference so it doesn't open again
-        localStorage.setItem('disclaimerAccepted', 'true');
+        document.getElementById('legal-disclaimer-modal').classList.add('hidden');
+        document.getElementById('legal-disclaimer-modal').classList.remove('flex');
     }
 </script>
 
