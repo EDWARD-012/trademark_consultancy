@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.mail import EmailMultiAlternatives, send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
@@ -36,7 +36,6 @@ class TrademarkApplication(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     application_number = models.CharField(max_length=50, unique=True)
     
-    # 🔥 NEW FIELD ADDED HERE 🔥
     service_type = models.CharField(max_length=200, default='New Application')
 
     trademark_name = models.CharField(max_length=200)
@@ -58,6 +57,7 @@ class TrademarkApplication(models.Model):
     def save(self, *args, **kwargs):
         is_new = self.pk is None 
         
+        # 1. Status Update Email Logic
         if not is_new:
             try:
                 old_instance = TrademarkApplication.objects.get(pk=self.pk)
@@ -68,10 +68,10 @@ class TrademarkApplication(models.Model):
 
         super().save(*args, **kwargs)
 
+        # 2. New Application Email Logic
         if is_new:
             self.send_new_app_emails()
 
-    # Email 1: Status Update
     def send_status_email(self):
         subject = f"Update on Trademark Application {self.application_number}"
         from_email = settings.DEFAULT_FROM_EMAIL
@@ -97,11 +97,10 @@ class TrademarkApplication(models.Model):
         except Exception as e:
             print(f"❌ Failed to send Status email: {e}")
 
-    # Email 2: New Application (User + Admin)
     def send_new_app_emails(self):
         context = {
-            'user_name': self.user.first_name or self.user.username,
-            'user_email': self.user.email,
+            'user_name': self.user.first_name or self.user.username if self.user else "Applicant",
+            'user_email': self.user.email if self.user else "N/A",
             'app_number': self.application_number,
             'trademark_name': self.trademark_name,
             'applicant_name': self.applicant_name,
@@ -131,19 +130,19 @@ class TrademarkApplication(models.Model):
 
         # B. Admin Email
         admin_email = settings.ADMIN_EMAIL 
-        subject_admin = f"🔔 NEW LEAD: {self.application_number} ({self.trademark_name})"
+        if admin_email:
+            subject_admin = f"🔔 NEW LEAD: {self.application_number} ({self.trademark_name})"
+            html_content_admin = render_to_string('emails/new_application_admin.html', context)
+            text_content_admin = strip_tags(html_content_admin)
 
-        html_content_admin = render_to_string('emails/new_application_admin.html', context)
-        text_content_admin = strip_tags(html_content_admin)
-
-        msg_admin = EmailMultiAlternatives(subject_admin, text_content_admin, from_email, [admin_email])
-        msg_admin.attach_alternative(html_content_admin, "text/html")
-        
-        try:
-            msg_admin.send()
-            print(f"✅ Admin Alert Email sent to: {admin_email}")
-        except Exception as e:
-            print(f"❌ Admin Email Failed: {e}")
+            msg_admin = EmailMultiAlternatives(subject_admin, text_content_admin, settings.DEFAULT_FROM_EMAIL, [admin_email])
+            msg_admin.attach_alternative(html_content_admin, "text/html")
+            
+            try:
+                msg_admin.send()
+                print(f"✅ Admin Alert Email sent to: {admin_email}")
+            except Exception as e:
+                print(f"❌ Admin Email Failed: {e}")
 
 
 # --- SERVICE MODEL ---
@@ -184,3 +183,17 @@ class Lead(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.phone}"
+    
+
+# 🔥 FIXED APPLICATION DOCUMENT MODEL 🔥
+class ApplicationDocument(models.Model):
+    application = models.ForeignKey(TrademarkApplication, on_delete=models.CASCADE, related_name='documents')
+    
+    # Replaced 'doc_type' with 'document_name' to match the Form
+    document_name = models.CharField(max_length=100, help_text="e.g. PAN Card, Logo")
+    
+    file = models.FileField(upload_to='documents/%Y/%m/') # Year/Month wise folders
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.document_name} - {self.application.application_number}"

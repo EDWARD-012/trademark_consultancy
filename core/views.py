@@ -183,3 +183,35 @@ def submit_lead_ajax(request):
             return JsonResponse({'status': 'error', 'message': 'Please fix the errors.', 'errors': form.errors})
     
     return JsonResponse({'status': 'error', 'message': 'Invalid Request'})
+
+# Import add karo
+from services.forms import LeadForm, DocumentUploadForm 
+from .models import TrademarkApplication, Service, Lead, ApplicationDocument
+from django.shortcuts import get_object_or_404 # Ye zaroori hai
+
+# ... (Old views) ...
+
+@login_required
+def upload_document(request, app_id):
+    # Sirf apni application access kar paye (Security Check)
+    application = get_object_or_404(TrademarkApplication, id=app_id, user=request.user)
+    
+    if request.method == 'POST':
+        form = DocumentUploadForm(request.POST, request.FILES) # request.FILES zaroori hai
+        if form.is_valid():
+            doc = form.save(commit=False)
+            doc.application = application
+            doc.save()
+            messages.success(request, "Document uploaded successfully!")
+            return redirect('upload_document', app_id=app_id)
+    else:
+        form = DocumentUploadForm()
+
+    # Pehle se uploaded docs dikhane ke liye
+    uploaded_docs = application.documents.all()
+
+    return render(request, 'core/upload_docs.html', {
+        'application': application,
+        'form': form,
+        'uploaded_docs': uploaded_docs
+    })

@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from core.views import home, contact, dashboard, submit_lead_ajax  # Import contact
+from core.views import home, contact, dashboard, submit_lead_ajax, upload_document  # Import contact
 from services.views import check_status, service_detail
 from services import views as service_views
 
@@ -33,6 +33,7 @@ urlpatterns = [
     path('services/<slug:slug>/', service_detail, name='service_detail'),
     path('dashboard/', dashboard, name='dashboard'),
     path('new-application/', service_views.new_application, name='new_application'),
+    path('application/<int:app_id>/upload/', upload_document, name='upload_document'),
 ]
 
 # Serve static files in development

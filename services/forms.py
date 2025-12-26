@@ -1,6 +1,6 @@
 from django import forms
 # 🔥 CHANGE IS HERE: 'Lead' ab core.models se aayega, .models se nahi
-from core.models import TrademarkApplication, Service, Lead 
+from core.models import TrademarkApplication, Service, Lead , ApplicationDocument
 
 # --- 1. Status Check Form ---
 class StatusCheckForm(forms.Form):
@@ -55,4 +55,19 @@ class LeadForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Email Address'}),
             'service_interested': forms.TextInput(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Service (e.g. Trademark)'}),
             'message': forms.Textarea(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Tell us about your requirement...', 'rows': 4}),
+        }
+
+class DocumentUploadForm(forms.ModelForm):
+    class Meta:
+        model = ApplicationDocument
+        fields = ['document_name', 'file']
+        
+        widgets = {
+            'document_name': forms.TextInput(attrs={
+                'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2 px-3',
+                'placeholder': 'Document Name (e.g. PAN Card, Logo)'
+            }),
+            'file': forms.FileInput(attrs={
+                'class': 'block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-secondary cursor-pointer'
+            })
         }

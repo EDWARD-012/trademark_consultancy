@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-
-{% block content %}
+{% load custom_filters %} {% block content %}
 <div class="min-h-screen bg-gray-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -274,14 +273,41 @@
                                         {{ app.trademark_name }} 
                                         <span class="text-gray-500 font-normal">({{ app.application_number }})</span>
                                     </p>
-                                    <div class="ml-2 flex-shrink-0 flex">
-                                        <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            {% if 'registered' in app.status %} bg-green-100 text-green-800 
-                                            {% elif 'objected' in app.status %} bg-red-100 text-red-800 
-                                            {% else %} bg-yellow-100 text-yellow-800 {% endif %}">
+                                    <div class="ml-4 flex-shrink-0 w-32 sm:w-48"> 
+                                        {% with step=app.status|get_progress_step %}
+                                        
+                                        <div class="hidden sm:flex justify-between text-[10px] font-bold text-gray-400 mb-1">
+                                            <span class="{% if step >= 1 %}text-primary{% endif %}">Filed</span>
+                                            <span class="{% if step >= 2 %}text-primary{% endif %}">Exam</span>
+                                            <span class="{% if step >= 3 %}text-primary{% endif %}">Jrnl</span>
+                                            <span class="{% if step >= 4 %}text-green-600{% endif %}">Reg</span>
+                                        </div>
+
+                                        <div class="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                                            <div class="absolute top-0 left-0 h-full rounded-full transition-all duration-500
+                                                {% if app.status == 'refused' or app.status == 'withdrawn' %} bg-red-500 w-full
+                                                {% elif step == 1 %} bg-primary w-[25%]
+                                                {% elif step == 2 %} bg-primary w-[50%]
+                                                {% elif step == 3 %} bg-primary w-[75%]
+                                                {% elif step == 4 %} bg-green-500 w-full
+                                                {% else %} bg-gray-300 w-0 {% endif %}">
+                                            </div>
+                                        </div>
+                                        
+                                        <p class="text-[10px] sm:text-xs mt-1 font-medium text-right
+                                            {% if app.status == 'refused' %}text-red-600
+                                            {% elif app.status == 'registered' %}text-green-600
+                                            {% else %}text-gray-500{% endif %}">
                                             {{ app.get_status_display }}
+                                            
                                         </p>
+
+                                        {% endwith %}
                                     </div>
+                                    <a href="{% url 'upload_document' app.id %}" class="flex-shrink-0 inline-flex items-center px-3 py-1.5 border border-primary text-xs font-medium rounded text-primary bg-white hover:bg-blue-50 transition shadow-sm" title="Upload Documents">
+                                        <i class="fa-solid fa-cloud-arrow-up sm:mr-1"></i> 
+                                        <span class="hidden sm:inline">Upload</span>
+                                    </a>
                                 </div>
                                 <div class="mt-2 sm:flex sm:justify-between">
                                     <div class="sm:flex">
