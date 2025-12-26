@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from core.views import home, contact, dashboard, submit_lead_ajax  # Import contact
 from services.views import check_status, service_detail
 from services import views as service_views
@@ -32,3 +34,8 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('new-application/', service_views.new_application, name='new_application'),
 ]
+
+# Serve static files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0] if settings.STATICFILES_DIRS else None)

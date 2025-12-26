@@ -28,7 +28,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-dev-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app', 'manyan-ip-services.vercel.app']
+
+# CSRF settings for Vercel
+CSRF_TRUSTED_ORIGINS = [
+    'https://manyan-ip-services.vercel.app',
+    'https://*.vercel.app',
+]
 
 
 # Application definition
@@ -50,44 +56,22 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 ]
 
+# Authentication backends - defined once
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', # Standard Login
     'allauth.account.auth_backends.AuthenticationBackend', # Google Login
 ]
 
-# Allauth Settings
-SITE_ID = 1
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'home'
-
-# Google Provider Settings
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
-
-# Disable email verification for now (to make testing easier)
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'allauth' requires this to be present:
-    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # allauth middleware at the end
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -160,21 +144,16 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use WhiteNoise for static files in production
+if not DEBUG:
+    # Use CompressedStaticFilesStorage (simpler, works better with Vercel)
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# Email Backend for Development (Prints to Console)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# ... existing settings ...
-
 # --- AUTHENTICATION & ALLAUTH SETTINGS ---
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
 SITE_ID = 1
 ACCOUNT_LOGIN_METHODS = {'email'}
 # 1. Force Email to be Required
@@ -182,7 +161,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False  # Optional: Users can just use email
 ACCOUNT_AUTHENTICATION_METHOD = 'email' # Users log in with email, not username
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # User CANNOT log in until they verify email
+
+# Email verification: mandatory for regular accounts, none for social accounts
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' if not DEBUG else 'none'
 
 # 2. Login/Logout Behavior
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -202,15 +183,17 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # --- SMTP EMAIL SETTINGS (Gmail Example) ---
-# This sends the actual email.
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-# Load these from .env for security (or hardcode temporarily for testing)
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') 
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') # Generate this in Google Account > Security > App Passwords
-DEFAULT_FROM_EMAIL = 'Manyan IP Services <no.reply.manyan@gmail.com>'
+# Use console backend in development, SMTP in production
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') 
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = 'Manyan IP Services <no.reply.manyan@gmail.com>'
 
 from django.db.backends.postgresql.features import DatabaseFeatures
 DatabaseFeatures.uses_server_side_cursors = False
@@ -227,9 +210,19 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 # 2. Social account se aayi email ko verify karne ki zaroorat nahi (Google verified hai)
 SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
 
-# 3. Agar user exist karta hai, toh login hone do
+# 3. Agar email same hai, toh automatically connect kar do
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
+# 4. Agar user exist karta hai, toh login hone do
 SOCIALACCOUNT_QUERY_EMAIL = True
 
+# Session and Cookie settings for production
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = False  # Vercel handles SSL
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
 
 if DEBUG:
     # Jab hum local computer par kaam kar rahe hain
