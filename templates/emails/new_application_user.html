@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+        .header { background-color: #1e3a8a; padding: 30px; text-align: center; }
+        .content { padding: 40px 30px; color: #333333; line-height: 1.6; }
+        .details-box { background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .footer { background-color: #111827; padding: 20px; text-align: center; color: #9ca3af; font-size: 12px; }
+        .button { background-color: #fbbf24; color: #1e3a8a; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; margin-top: 20px; }
+        .label { font-size: 12px; color: #6b7280; text-transform: uppercase; font-weight: bold; }
+        .value { font-size: 16px; color: #111827; margin-bottom: 10px; display: block; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="color: #ffffff; margin: 0; font-size: 24px;">MANYAN IP SERVICES</h1>
+            <p style="color: #fbbf24; margin: 5px 0 0; font-size: 12px; text-transform: uppercase;">Application Received</p>
+        </div>
+
+        <div class="content">
+            <p>Dear <strong>{{ user_name }}</strong>,</p>
+            
+            <p>Thank you for choosing Manyan IP Services. We have successfully received your Trademark Application request.</p>
+            
+            <p>Our legal team has started the initial verification process. Below are your application details for future reference:</p>
+
+            <div class="details-box">
+                <span class="label">Application Number</span>
+                <span class="value" style="font-size: 20px; color: #1e3a8a;">{{ app_number }}</span>
+
+                <span class="label">Trademark / Brand Name</span>
+                <span class="value">{{ trademark_name }}</span>
+
+                <span class="label">Applicant Name</span>
+                <span class="value">{{ applicant_name }}</span>
+
+                <span class="label">Class</span>
+                <span class="value">Class {{ trademark_class }}</span>
+
+                <span class="label">Filing Date</span>
+                <span class="value">{{ filing_date }}</span>
+            </div>
+
+            <p>You can track the live status of your application anytime through your dashboard.</p>
+
+            <center>
+                <a href="{{ dashboard_link }}" class="button" style="background-color: #fbbf24; color: #1e3a8a; padding: 12px 25px; text-decoration: none; border-radius: 5px;">
+                    Go to Dashboard
+                </a>
+            </center>
+
+            <br>
+            <p>Best Regards,<br><strong>Manyan IP Legal Team</strong></p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Manyan IP Services. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

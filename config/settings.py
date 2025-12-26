@@ -229,3 +229,11 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
 
 # 3. Agar user exist karta hai, toh login hone do
 SOCIALACCOUNT_QUERY_EMAIL = True
+
+
+if DEBUG:
+    # Jab hum local computer par kaam kar rahe hain
+    SITE_URL = "http://127.0.0.1:8000"
+else:
+    # Jab hum Vercel/Render par deploy karenge (Yahan apni real site ka link dalna baad mein)
+    SITE_URL = "https://manyan-ip-services.vercel.app"

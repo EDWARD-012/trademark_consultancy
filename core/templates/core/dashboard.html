@@ -12,8 +12,8 @@
                 <p class="mt-1 text-gray-500">Manage your trademarks and legal services.</p>
             </div>
             <div class="mt-4 sm:mt-0">
-                <a href="{% url 'contact' %}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary">
-                    <i class="fa-solid fa-plus mr-2"></i> New Enquiry
+                <a href="{% url 'new_application' %}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary transition-colors shadow-md">
+                    <i class="fa-solid fa-file-signature mr-2"></i> File New Trademark
                 </a>
             </div>
         </div>
@@ -91,14 +91,57 @@
 
         </div>
 
-        <h2 class="mt-8 text-lg font-medium text-gray-900">Recent Enquiries</h2>
+        <h2 class="mt-8 text-lg font-medium text-gray-900">Your Applications</h2>
         <div class="mt-4 bg-white shadow overflow-hidden sm:rounded-md border border-gray-200">
             <ul role="list" class="divide-y divide-gray-200">
-                <li class="px-4 py-12 text-center text-gray-500">
-                    <i class="fa-regular fa-folder-open text-4xl mb-3 text-gray-300"></i>
-                    <p>No recent enquiries found.</p>
-                    <a href="{% url 'contact' %}" class="mt-2 inline-block text-sm font-medium text-primary hover:underline">Start a new application</a>
-                </li>
+                
+                {% if applications %}
+                    {% for app in applications %}
+                    <li>
+                        <a href="#" class="block hover:bg-gray-50">
+                            <div class="px-4 py-4 sm:px-6">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-medium text-primary truncate">
+                                        {{ app.trademark_name }} 
+                                        <span class="text-gray-500 font-normal">({{ app.application_number }})</span>
+                                    </p>
+                                    <div class="ml-2 flex-shrink-0 flex">
+                                        <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                            {% if 'registered' in app.status %} bg-green-100 text-green-800 
+                                            {% elif 'objected' in app.status %} bg-red-100 text-red-800 
+                                            {% else %} bg-yellow-100 text-yellow-800 {% endif %}">
+                                            {{ app.get_status_display }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 sm:flex sm:justify-between">
+                                    <div class="sm:flex">
+                                        <p class="flex items-center text-sm text-gray-500">
+                                            <i class="fa-solid fa-user mr-2 text-gray-400"></i>
+                                            {{ app.applicant_name }}
+                                        </p>
+                                        <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                                            <i class="fa-solid fa-layer-group mr-2 text-gray-400"></i>
+                                            Class {{ app.trademark_class }}
+                                        </p>
+                                    </div>
+                                    <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                        <i class="fa-regular fa-calendar mr-2 text-gray-400"></i>
+                                        <p>Filed on <time datetime="{{ app.filing_date }}">{{ app.filing_date }}</time></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="px-4 py-12 text-center text-gray-500">
+                        <i class="fa-regular fa-folder-open text-4xl mb-3 text-gray-300"></i>
+                        <p>No applications found.</p>
+                        <a href="{% url 'new_application' %}" class="mt-2 inline-block text-sm font-medium text-primary hover:underline">Start a new application</a>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Email clients strip external CSS, so we use inline styles mostly, 
+           but this block helps for some clients */
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+        .header { background-color: #1e3a8a; padding: 30px; text-align: center; }
+        .content { padding: 40px 30px; color: #333333; line-height: 1.6; }
+        .status-box { background-color: #f8fafc; border-left: 5px solid #fbbf24; padding: 15px; margin: 20px 0; }
+        .footer { background-color: #111827; padding: 20px; text-align: center; color: #9ca3af; font-size: 12px; }
+        .button { background-color: #fbbf24; color: #1e3a8a; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 1px;">MANYAN IP SERVICES</h1>
+            <p style="color: #fbbf24; margin: 5px 0 0; font-size: 12px; text-transform: uppercase;">Legal Excellence & IP Protection</p>
+        </div>
+
+        <div class="content">
+            <p>Dear <strong>{{ user_name }}</strong>,</p>
+            
+            <p>This is an automated notification regarding your Trademark Application.</p>
+            
+            <p>The status of your application has been updated by the Registry.</p>
+
+            <div class="status-box">
+                <p style="margin: 0 0 10px;"><strong>Application No:</strong> {{ app_number }}</p>
+                <p style="margin: 0 0 10px;"><strong>Trademark:</strong> {{ trademark_name }}</p>
+                <p style="margin: 0;"><strong>New Status:</strong> <span style="color: #1e3a8a; font-weight: bold; font-size: 18px;">{{ new_status }}</span></p>
+            </div>
+
+            <p>Please log in to your dashboard to view full details and check if any action is required from your side (such as filing a reply to an objection).</p>
+
+            <center>
+                <a href="{{ dashboard_link }}" class="button">Go to Dashboard</a>
+            </center>
+
+            <br>
+            <p>Best Regards,<br><strong>Manyan IP Legal Team</strong></p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Manyan IP Services. All rights reserved.</p>
+            <p>This is a system-generated email. Please do not reply directly to this address.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -5,6 +5,8 @@ from leads.forms import LeadForm
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
+from .models import TrademarkApplication
+
 def home(request):
     services = Service.objects.filter(is_active=True)[:6]
     
@@ -49,6 +51,11 @@ def contact(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'core/dashboard.html', {
-        'user': request.user
+    # 2. Database se User ki applications nikalo (Latest first)
+    user_applications = TrademarkApplication.objects.filter(user=request.user).order_by('-filing_date')
+    
+    # 3. 'applications' key ke saath template ko bhejo
+    return render(request, 'core/dashboard.html', {  # Note: Path check kar lena ('core/dashboard.html' ya 'dashboard.html')
+        'user': request.user,
+        'applications': user_applications 
     })
