@@ -34,31 +34,49 @@ def service_detail(request, slug):
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from core.utils import generate_application_number # Import our generator
+from core.utils import generate_application_number
 from .forms import NewTrademarkForm
+from core.models import Service # Import Service model
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from core.utils import generate_application_number
+from .forms import NewTrademarkForm
+from core.models import Service # Import zaroori hai
 
 @login_required
 def new_application(request):
+    # 1. URL se slug uthao
+    pre_selected_slug = request.GET.get('service')
+    initial_data = {}
+    
+    # 2. Agar URL mein service hai, to DB se dhundo
+    if pre_selected_slug:
+        try:
+            service_obj = Service.objects.get(slug=pre_selected_slug)
+            # Service Title ko form ke liye set karo
+            initial_data = {'service_type': service_obj.title}
+            print(f"✅ Service Found: {service_obj.title}") # Terminal me dikhega
+        except Service.DoesNotExist:
+            print(f"❌ Service Not Found for slug: {pre_selected_slug}")
+
     if request.method == 'POST':
         form = NewTrademarkForm(request.POST)
         if form.is_valid():
-            # 1. Form data uthao par abhi Database mein save mat karo
             application = form.save(commit=False)
-            
-            # 2. AUTOMATIC ID GENERATE KARO
             application.application_number = generate_application_number()
-            
-            # 3. Baaki fields auto-fill karo
             application.user = request.user
             application.filing_date = timezone.now().date()
-            application.status = 'received' # Default status
+            application.status = 'received'
             
-            # 4. Ab Final Save karo
+            # Agar user ne service type change nahi kiya (readonly hai waise)
+            # toh wo POST data se apne aap save ho jayega
+            
             application.save()
-            
-            # 5. Success page ya Dashboard par bhej do
             return redirect('dashboard')
     else:
-        form = NewTrademarkForm()
+        # 3. Initial Data Form me inject karo
+        form = NewTrademarkForm(initial=initial_data)
 
     return render(request, 'services/new_application.html', {'form': form})

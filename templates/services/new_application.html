@@ -5,10 +5,10 @@
     
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            File New Trademark
+            Submit Application
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
-            Fill in the details below. We will generate your Application Number automatically.
+            Complete the details below to proceed.
         </p>
     </div>
 
@@ -18,6 +18,13 @@
             <form method="POST" class="space-y-6">
                 {% csrf_token %}
                 
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Selected Service</label>
+                    <div class="mt-1">
+                        {{ form.service_type }}
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Applicant Type</label>
                     <div class="mt-1">
@@ -40,18 +47,18 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Brand / Trademark Name</label>
+                    <label class="block text-sm font-medium text-gray-700">Brand Name / Title of Work</label>
                     <div class="mt-1">
                         {{ form.trademark_name }}
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Class (1-45)</label>
+                    <label class="block text-sm font-medium text-gray-700">Class / Category ID</label>
                     <div class="mt-1">
                         {{ form.trademark_class }}
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Enter 0 if you don't know the class.</p>
+                    <p class="text-xs text-gray-500 mt-1">Enter 0 if not applicable (e.g. for Copyright/Litigation).</p>
                 </div>
 
                 <div>

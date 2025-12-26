@@ -3,24 +3,39 @@
 
 {% block content %}
 
-<section class="relative bg-primary py-20 lg:py-32 overflow-hidden">
+<section class="relative bg-primary py-24 lg:py-36 overflow-hidden">
     <div class="absolute inset-0 opacity-10">
         <img src="https://www.svgrepo.com/show/475207/law-hammer.svg" class="w-full h-full object-cover" alt="Background Pattern">
     </div>
     
     <div class="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-6 p-4 rounded-md shadow-md {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
             Secure Your <span class="text-gold">Brand Identity</span>
         </h1>
         <p class="text-lg md:text-xl text-blue-100 max-w-2xl mb-10">
-            Expert Trademark Registration, Objection Handling, and IP Protection services for businesses in India.
+            India's most trusted platform for Trademark Registration, Company Incorporation, and Legal Compliance.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
-            <a href="{% url 'check_status' %}" class="bg-gold text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition transform hover:scale-105 shadow-lg text-center">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="bg-gold text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition transform hover:scale-105 shadow-lg text-center">
+                    Go to Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="bg-gold text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition transform hover:scale-105 shadow-lg text-center">
+                    Get Started
+                </a>
+            {% endif %}
+            
+            <a href="{% url 'check_status' %}" class="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-primary transition text-center">
                 Track Application
-            </a>
-            <a href="#about" class="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-primary transition text-center">
-                About Us
             </a>
         </div>
     </div>
@@ -28,65 +43,34 @@
 
 <section id="about" class="py-20 bg-white">
     <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             <div class="relative order-2 lg:order-1">
                 <div class="absolute -top-4 -left-4 w-24 h-24 bg-gold rounded-full opacity-20"></div>
                 <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary rounded-full opacity-10"></div>
-                
                 <img class="relative rounded-2xl shadow-2xl w-full object-cover h-[400px]" 
                      src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                     alt="Legal Team Working">
-                     
-                <div class="absolute bottom-8 left-8 bg-white p-4 rounded-lg shadow-xl border-l-4 border-gold max-w-xs hidden md:block">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-blue-50 p-2 rounded-full">
-                            <i class="fa-solid fa-scale-balanced text-primary text-xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Success Rate</p>
-                            <p class="text-xl font-bold text-gray-900">98.5%</p>
-                        </div>
-                    </div>
-                </div>
+                     alt="Legal Team">
             </div>
 
             <div class="order-1 lg:order-2">
                 <span class="text-primary font-bold tracking-wider uppercase text-sm">About Manyan IP Services</span>
                 <h2 class="mt-2 text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
                     Your Trusted Partners in <br>
-                    <span class="text-primary">Intellectual Property Rights</span>
+                    <span class="text-primary">Legal & Business Growth</span>
                 </h2>
-                
                 <p class="mt-4 text-lg text-gray-600">
-                    At <strong>Manyan IP Services</strong>, we believe that your ideas are your greatest assets. Founded with a vision to simplify legal complexities, we specialize in shielding your brand from infringement and theft.
+                    At <strong>Manyan IP Services</strong>, we simplify legal complexities. From shielding your brand identity to setting up your company structure, we handle it all with a 98% success rate.
                 </p>
-                
-                <p class="mt-4 text-gray-600">
-                    Whether you are a startup looking for your first trademark or an established enterprise managing a portfolio, our team of dedicated legal experts ensures your intellectual property remains exclusively yours.
-                </p>
-
                 <div class="mt-8 space-y-4">
                     <div class="flex items-start">
-                        <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center border border-green-200 mt-1">
-                            <i class="fa-solid fa-check text-green-600 text-xs"></i>
-                        </div>
-                        <p class="ml-4 text-gray-700"><strong>Expert Guidance:</strong> Specialized attorneys for TM Objections & Hearings.</p>
+                        <i class="fa-solid fa-check-circle text-green-600 text-xl mt-1 mr-3"></i>
+                        <p class="text-gray-700"><strong>Expert Attorneys:</strong> Specialized in IP & Corporate Law.</p>
                     </div>
                     <div class="flex items-start">
-                        <div class="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 flex items-center justify-center border border-green-200 mt-1">
-                            <i class="fa-solid fa-check text-green-600 text-xs"></i>
-                        </div>
-                        <p class="ml-4 text-gray-700"><strong>End-to-End Support:</strong> From filing to final registration certificate.</p>
+                        <i class="fa-solid fa-check-circle text-green-600 text-xl mt-1 mr-3"></i>
+                        <p class="text-gray-700"><strong>Transparent Pricing:</strong> No hidden charges, ever.</p>
                     </div>
-                </div>
-
-                <div class="mt-8">
-                    <a href="{% url 'contact' %}" class="text-primary font-bold hover:text-secondary inline-flex items-center group">
-                        Meet Our Team 
-                        <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
                 </div>
             </div>
         </div>
@@ -94,82 +78,184 @@
 </section>
 
 <section id="services" class="py-20 bg-gray-50">
-    <div class="max-w-screen-xl mx-auto px-4 text-center">
-        <span class="text-primary font-bold uppercase text-sm">Our Expertise</span>
-        <h2 class="mt-2 text-3xl font-extrabold text-gray-900">Comprehensive Legal Services</h2>
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <span class="text-primary font-bold uppercase text-sm">What We Offer</span>
+        <h2 class="mt-2 text-3xl font-extrabold text-gray-900">Most Popular Services</h2>
         <p class="mt-4 text-gray-500 max-w-2xl mx-auto">
-            We provide a wide range of Intellectual Property services tailored to protect your business assets.
+            Explore our top-rated legal services tailored for your business needs.
         </p>
         
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-primary mb-4 mx-auto">
-                    <i class="fa-solid fa-copyright text-xl"></i>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for s in services %}
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-t-4 
+                {% if s.category == 'ip' %} border-primary 
+                {% elif s.category == 'business' %} border-gold 
+                {% elif s.category == 'license' %} border-green-500 
+                {% else %} border-red-500 {% endif %}">
+                
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center text-white mb-4 mx-auto
+                    {% if s.category == 'ip' %} bg-primary 
+                    {% elif s.category == 'business' %} bg-gold 
+                    {% elif s.category == 'license' %} bg-green-500 
+                    {% else %} bg-red-500 {% endif %}">
+                    
+                    {% if s.category == 'ip' %} <i class="fa-solid fa-copyright text-xl"></i>
+                    {% elif s.category == 'business' %} <i class="fa-solid fa-briefcase text-xl"></i>
+                    {% elif s.category == 'license' %} <i class="fa-solid fa-certificate text-xl"></i>
+                    {% else %} <i class="fa-solid fa-gavel text-xl"></i>
+                    {% endif %}
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Trademark Filing</h3>
-                <p class="text-gray-600 text-sm">Secure your brand name and logo with seamless registration processes.</p>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-primary mb-4 mx-auto">
-                    <i class="fa-solid fa-gavel text-xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Objection Reply</h3>
-                <p class="text-gray-600 text-sm">Expert drafting of replies to examination reports and objections.</p>
-            </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-primary mb-4 mx-auto">
-                    <i class="fa-solid fa-file-contract text-xl"></i>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ s.title }}</h3>
+                <p class="text-gray-600 text-sm line-clamp-2">{{ s.short_description }}</p>
+                
+                <div class="mt-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="text-sm font-medium text-primary hover:underline">Apply Now &rarr;</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-sm font-medium text-primary hover:underline">Login to Apply &rarr;</a>
+                    {% endif %}
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Copyright & Patents</h3>
-                <p class="text-gray-600 text-sm">Protect your creative works and innovative inventions legally.</p>
+            </div>
+            {% empty %}
+                <div class="col-span-3 text-gray-500">No services found. Run the setup script.</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mt-10">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-secondary">View All Services</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-secondary">Login to View All</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-primary rounded-2xl shadow-2xl overflow-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="p-10 text-white flex flex-col justify-center">
+                    <h3 class="text-3xl font-bold mb-4">Request a Callback</h3>
+                    <p class="text-blue-100 mb-6">Confused about which service to choose? Fill this form and our legal expert will call you within 24 hours.</p>
+                </div>
+                
+                <div class="p-10 bg-white relative">
+                    
+                    <form id="ajax-lead-form" method="POST" class="space-y-4">
+                        {% csrf_token %}
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            {{ form.name }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            {{ form.phone }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            {{ form.email }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Service Interested</label>
+                            {{ form.service_interested }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            {{ form.message }}
+                        </div>
+                        
+                        <button type="submit" id="submit-btn" class="w-full bg-gold text-gray-900 font-bold py-3 rounded hover:bg-yellow-400 transition flex justify-center items-center">
+                            Get Free Consultation
+                        </button>
+                    </form>
+
+                    <div id="form-message" class="hidden mt-4 p-4 rounded-lg text-center font-bold text-sm">
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<script>
+    document.getElementById('ajax-lead-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // Page Reload Roko
+
+        const form = this;
+        const formData = new FormData(form);
+        const msgBox = document.getElementById('form-message');
+        const btn = document.getElementById('submit-btn');
+        const originalBtnText = btn.innerText;
+
+        // 1. Loading State
+        btn.innerText = "Sending...";
+        btn.disabled = true;
+        msgBox.classList.add('hidden'); // Hide purana message if any
+
+        // 2. Send Data
+        fetch("{% url 'submit_lead_ajax' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 3. Reset Button
+            btn.innerText = originalBtnText;
+            btn.disabled = false;
+            
+            // 4. Show Message
+            msgBox.classList.remove('hidden'); // Box dikhao
+
+            if (data.status === 'success') {
+                // ✅ Success Design
+                msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-green-100 text-green-800 border border-green-300";
+                msgBox.innerText = data.message;
+                form.reset(); // Form clear karo
+            } else {
+                // ❌ Error Design
+                msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-red-100 text-red-800 border border-red-300";
+                msgBox.innerText = "Error: " + data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            btn.innerText = originalBtnText;
+            btn.disabled = false;
+            msgBox.classList.remove('hidden');
+            msgBox.className = "mt-4 p-4 rounded-lg text-center font-bold text-sm bg-red-100 text-red-800";
+            msgBox.innerText = "Network Error! Please check your internet.";
+        });
+    });
+</script>
+
 <div id="legal-disclaimer-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[60] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/60 backdrop-blur-sm">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <div class="relative bg-white rounded-lg shadow-2xl border-t-4 border-gold">
-            
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 class="text-xl font-bold text-gray-900 flex items-center">
-                    <i class="fa-solid fa-scale-balanced text-primary mr-3"></i>
-                    Important Legal Disclaimer
+                    <i class="fa-solid fa-scale-balanced text-primary mr-3"></i> Important Legal Disclaimer
                 </h3>
             </div>
-
             <div class="p-4 md:p-5 space-y-4">
                 <p class="text-base leading-relaxed text-gray-600">
                     <strong>Manyan IP Services</strong> is a private legal consultancy firm acting as a facilitator for Trademark & IP registration.
                 </p>
-                
                 <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2">
-                    <li>We are <strong>NOT</strong> the Government of India or the "Controller General of Patents, Designs and Trade Marks".</li>
-                    <li>We are a team of attorneys and legal experts who assist in filing and managing applications.</li>
-                    <li>The final grant of a Trademark is solely at the discretion of the Government Registry. No consultancy can guarantee registration.</li>
+                    <li>We are <strong>NOT</strong> the Government of India.</li>
+                    <li>The final grant of a Trademark is solely at the discretion of the Government Registry.</li>
                 </ul>
-
-                <div class="bg-blue-50 p-3 rounded border border-blue-100 text-xs text-blue-800 mt-2">
-                    Please acknowledge that you are hiring us for professional legal assistance and not for any government-issued guarantee.
-                </div>
             </div>
-
-            <div class="p-4 md:p-5 border-t border-gray-200 rounded-b bg-gray-50">
-                
-                <div class="flex items-center mb-4">
-                    <input id="disclaimer-checkbox" type="checkbox" value="" class="w-5 h-5 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2 cursor-pointer">
-                    <label for="disclaimer-checkbox" class="ms-2 text-sm font-medium text-gray-900 cursor-pointer select-none">
-                        I have read and understood the disclaimer above.
-                    </label>
-                </div>
-
-                <div class="flex justify-end">
-                    <button id="accept-btn" onclick="acceptDisclaimer()" type="button" disabled class="text-white bg-primary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center opacity-50 cursor-not-allowed transition-all">
-                        Agree & Continue
-                    </button>
-                </div>
+            <div class="p-4 md:p-5 border-t border-gray-200 rounded-b bg-gray-50 flex justify-end">
+                <button onclick="closeDisclaimer()" type="button" class="text-white bg-primary hover:bg-secondary font-medium rounded-lg text-sm px-5 py-2.5">
+                    I Understand
+                </button>
             </div>
         </div>
     </div>
@@ -177,33 +263,14 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // 1. SHOW MODAL ALWAYS (Removed sessionStorage check)
-        const modal = document.getElementById('legal-disclaimer-modal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-
-        // 2. Button Logic (Checkbox)
-        const checkbox = document.getElementById('disclaimer-checkbox');
-        const btn = document.getElementById('accept-btn');
-
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                btn.disabled = false;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
-                btn.disabled = true;
-                btn.classList.add('opacity-50', 'cursor-not-allowed');
-            }
-        });
+        // Show modal on load
+        document.getElementById('legal-disclaimer-modal').classList.remove('hidden');
+        document.getElementById('legal-disclaimer-modal').classList.add('flex');
     });
 
-    function acceptDisclaimer() {
-        // Just hide the modal
-        const modal = document.getElementById('legal-disclaimer-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        
-        // We do NOT save to session storage anymore
+    function closeDisclaimer() {
+        document.getElementById('legal-disclaimer-modal').classList.add('hidden');
+        document.getElementById('legal-disclaimer-modal').classList.remove('flex');
     }
 </script>
 

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import home, contact, dashboard  # Import contact
+from core.views import home, contact, dashboard, submit_lead_ajax  # Import contact
 from services.views import check_status, service_detail
 from services import views as service_views
 
@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', home, name='home'),
+    path('submit-lead-ajax/', submit_lead_ajax, name='submit_lead_ajax'),
     path('accounts/', include('accounts.urls')),
     path('status/', check_status, name='check_status'),
     path('contact/', contact, name='contact'), # New Path

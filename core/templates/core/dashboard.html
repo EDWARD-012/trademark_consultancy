@@ -24,6 +24,32 @@
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
+                            <i class="fa-solid fa-folder-open text-gold text-xl"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Total Applications</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-bold text-gray-900">{{ app_count }}</div>
+                                    <span class="ml-2 text-sm text-gray-500">Filed</span>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-5 py-3">
+                    <div class="text-sm">
+                        <a href="#user-applications" class="font-medium text-primary hover:text-secondary">
+                            View All List <span aria-hidden="true">&darr;</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg border-t-4 border-gold">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
                             <i class="fa-solid fa-magnifying-glass text-gold text-xl"></i>
                         </div>
                         <div class="ml-5 w-0 flex-1">
@@ -91,7 +117,150 @@
 
         </div>
 
-        <h2 class="mt-8 text-lg font-medium text-gray-900">Your Applications</h2>
+        <div class="mt-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Our Professional Services</h2>
+                </div>
+
+            <div class="space-y-12">
+                
+                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-primary">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Intellectual Property & Global IP</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {% for s in services_ip %}
+                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')" 
+                            class="group p-4 rounded-lg bg-gray-50 hover:bg-blue-50 transition border border-gray-100 hover:border-blue-200 cursor-pointer shadow-sm hover:shadow-md">
+                            <h4 class="font-bold text-gray-900 group-hover:text-primary">{{ s.title }}</h4>
+                            <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{ s.short_description }}</p>
+                            <div class="mt-3 text-xs font-semibold text-blue-700 bg-blue-100 inline-block px-2 py-1 rounded">
+                                View Details &rarr;
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-gold">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Business Formation</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {% for s in services_business %}
+                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')"
+                            class="p-4 rounded border border-gray-200 hover:shadow-md transition bg-white cursor-pointer group">
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-briefcase text-gold mt-1 mr-3 group-hover:scale-110 transition-transform"></i>
+                                <div>
+                                    <h4 class="font-semibold text-sm text-gray-900 group-hover:text-yellow-600">{{ s.title }}</h4>
+                                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ s.short_description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-green-500">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Licenses & Registration</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {% for s in services_license %}
+                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')"
+                            class="p-4 rounded border border-gray-200 hover:shadow-md transition bg-white cursor-pointer group">
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-certificate text-green-600 mt-1 mr-3 group-hover:scale-110 transition-transform"></i>
+                                <div>
+                                    <h4 class="font-semibold text-sm text-gray-900 group-hover:text-green-700">{{ s.title }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Litigation Services</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {% for s in services_litigation %}
+                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')"
+                            class="flex items-center p-4 bg-red-50 rounded-lg cursor-pointer hover:bg-red-100 transition">
+                            <i class="fa-solid fa-gavel text-red-600 text-xl mr-3"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-900">{{ s.title }}</h4>
+                                <p class="text-xs text-gray-600 line-clamp-1">{{ s.short_description }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="service-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeServiceModal()"></div>
+
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                
+                                <div class="flex justify-between items-start border-b pb-3 mb-3">
+                                    <h3 class="text-2xl leading-6 font-bold text-primary" id="modal-title">Service Name</h3>
+                                    <span id="modal-price" class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-green-400">₹0</span>
+                                </div>
+
+                                <div class="mt-4">
+                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">Overview</p>
+                                    <p class="text-sm text-gray-700 mt-1 leading-relaxed" id="modal-desc">Description goes here...</p>
+                                </div>
+
+                                <div class="mt-4 bg-gray-50 p-3 rounded border border-gray-200">
+                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wide flex items-center">
+                                        <i class="fa-solid fa-file-lines mr-2"></i> Documents Required
+                                    </p>
+                                    <div class="text-sm text-gray-600 mt-2 ml-1" id="modal-docs">
+                                        </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <a id="modal-apply-btn" href="#" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-secondary focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                            Apply Now
+                        </a>
+                        <button type="button" onclick="closeServiceModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function openServiceModal(title, desc, price, docs, slug) {
+                // 1. Data set karo
+                document.getElementById('modal-title').innerText = title;
+                document.getElementById('modal-desc').innerText = desc;
+                document.getElementById('modal-price').innerText = price || "Contact for Price";
+                document.getElementById('modal-docs').innerHTML = docs; // HTML allow kiya (linebreaks ke liye)
+
+                // 2. Apply Button ka Link set karo (URL Parameter ke saath)
+                // Link banega: /new-application/?service=trademark-registration
+                const applyLink = "{% url 'new_application' %}?service=" + slug;
+                document.getElementById('modal-apply-btn').href = applyLink;
+
+                // 3. Modal Dikhao
+                document.getElementById('service-modal').classList.remove('hidden');
+            }
+
+            function closeServiceModal() {
+                document.getElementById('service-modal').classList.add('hidden');
+            }
+        </script>
+        <h2 id="user-applications" class="mt-12 text-lg font-medium text-gray-900">Your Applications</h2>
         <div class="mt-4 bg-white shadow overflow-hidden sm:rounded-md border border-gray-200">
             <ul role="list" class="divide-y divide-gray-200">
                 
@@ -151,39 +320,32 @@
 <div id="legal-disclaimer-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[60] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/60 backdrop-blur-sm">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <div class="relative bg-white rounded-lg shadow-2xl border-t-4 border-gold">
-            
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 class="text-xl font-bold text-gray-900 flex items-center">
                     <i class="fa-solid fa-scale-balanced text-primary mr-3"></i>
                     Important Legal Disclaimer
                 </h3>
             </div>
-
             <div class="p-4 md:p-5 space-y-4">
                 <p class="text-base leading-relaxed text-gray-600">
                     <strong>Manyan IP Services</strong> is a private legal consultancy firm acting as a facilitator for Trademark & IP registration.
                 </p>
-                
                 <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2">
                     <li>We are <strong>NOT</strong> the Government of India or the "Controller General of Patents, Designs and Trade Marks".</li>
                     <li>We are a team of attorneys and legal experts who assist in filing and managing applications.</li>
                     <li>The final grant of a Trademark is solely at the discretion of the Government Registry. No consultancy can guarantee registration.</li>
                 </ul>
-
                 <div class="bg-blue-50 p-3 rounded border border-blue-100 text-xs text-blue-800 mt-2">
                     Please acknowledge that you are hiring us for professional legal assistance and not for any government-issued guarantee.
                 </div>
             </div>
-
             <div class="p-4 md:p-5 border-t border-gray-200 rounded-b bg-gray-50">
-                
                 <div class="flex items-center mb-4">
                     <input id="disclaimer-checkbox" type="checkbox" value="" class="w-5 h-5 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2 cursor-pointer">
                     <label for="disclaimer-checkbox" class="ms-2 text-sm font-medium text-gray-900 cursor-pointer select-none">
                         I have read and understood the disclaimer above.
                     </label>
                 </div>
-
                 <div class="flex justify-end">
                     <button id="accept-btn" onclick="acceptDisclaimer()" type="button" disabled class="text-white bg-primary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center opacity-50 cursor-not-allowed transition-all">
                         Agree & Continue
@@ -196,7 +358,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // 1. SHOW MODAL ALWAYS (Removed sessionStorage check)
+        // 1. SHOW MODAL ALWAYS
         const modal = document.getElementById('legal-disclaimer-modal');
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -217,12 +379,9 @@
     });
 
     function acceptDisclaimer() {
-        // Just hide the modal
         const modal = document.getElementById('legal-disclaimer-modal');
         modal.classList.add('hidden');
         modal.classList.remove('flex');
-        
-        // We do NOT save to session storage anymore
     }
 </script>
 

@@ -1,8 +1,19 @@
-# .gitignore
-venv/
+# Django specifics
+*.log
+*.pot
 *.pyc
 __pycache__/
 db.sqlite3
+media/
+
+# Environment Variables (SENSITIVE DATA)
 .env
-staticfiles/
+
+# Python Virtual Environment (HEAVY FILES)
+venv/
+env/
+.venv/
+
+# OS generated files
 .DS_Store
+Thumbs.db

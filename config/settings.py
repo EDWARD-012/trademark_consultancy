@@ -237,3 +237,5 @@ if DEBUG:
 else:
     # Jab hum Vercel/Render par deploy karenge (Yahan apni real site ka link dalna baad mein)
     SITE_URL = "https://manyan-ip-services.vercel.app"
+
+ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
