@@ -1,380 +1,279 @@
 {% extends 'base.html' %}
-{% load custom_filters %} {% block content %}
-<div class="min-h-screen bg-gray-50 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+{% load static %}
+{% load custom_filters %} 
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    
+    <div class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-lovable-purple/10 blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-lovable-blue/10 blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
         
-        <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div class="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">
-                    Welcome back, {{ user.first_name|default:user.username|title }}!
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+                    Welcome back, <span class="text-transparent bg-clip-text bg-gradient-to-r from-lovable-purple to-lovable-blue">{{ user.first_name|default:user.username|title }}</span>!
                 </h1>
-                <p class="mt-1 text-gray-500">Manage your trademarks and legal services.</p>
+                <p class="mt-2 text-slate-400 text-sm">Manage your trademarks and legal services efficiently.</p>
             </div>
-            <div class="mt-4 sm:mt-0">
-                <a href="{% url 'new_application' %}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary transition-colors shadow-md">
-                    <i class="fa-solid fa-file-signature mr-2"></i> File New Trademark
+            <div>
+                <a href="{% url 'new_application' %}" class="inline-flex items-center px-6 py-3 rounded-2xl shadow-lg shadow-lovable-purple/20 bg-gradient-to-r from-lovable-purple to-lovable-blue text-white font-bold text-sm hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-plus mr-2"></i> File New Application
                 </a>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+            <div class="glass p-6 rounded-[32px] border border-white/10 flex items-center justify-between group hover:border-white/20 transition-all">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Applications</p>
+                    <p class="text-3xl font-extrabold text-white mt-1">{{ app_count }}</p>
+                    <p class="text-xs text-lovable-blue mt-1">Active Filings</p>
+                </div>
+                <div class="h-12 w-12 rounded-2xl bg-lovable-blue/10 flex items-center justify-center text-lovable-blue group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-folder-open text-xl"></i>
+                </div>
+            </div>
+
+            <a href="{% url 'check_status' %}" class="glass p-6 rounded-[32px] border border-white/10 flex items-center justify-between group hover:bg-white/5 transition-all cursor-pointer">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Trademark Status</p>
+                    <p class="text-xl font-bold text-white mt-1">Track Application</p>
+                    <p class="text-xs text-slate-400 mt-1 group-hover:text-lovable-purple transition-colors">Check Live Status &rarr;</p>
+                </div>
+                <div class="h-12 w-12 rounded-2xl bg-lovable-purple/10 flex items-center justify-center text-lovable-purple group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917250431998" target="_blank" class="glass p-6 rounded-[32px] border border-white/10 flex items-center justify-between group hover:bg-white/5 transition-all cursor-pointer">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Need Help?</p>
+                    <p class="text-xl font-bold text-white mt-1">Chat with Expert</p>
+                    <p class="text-xs text-green-400 mt-1">Online Now &rarr;</p>
+                </div>
+                <div class="h-12 w-12 rounded-2xl bg-green-500/10 flex items-center justify-center text-green-400 group-hover:scale-110 transition-transform">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                </div>
+            </a>
+        </div>
+
+        <div class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-6">Your Applications</h2>
             
-            <div class="bg-white overflow-hidden shadow rounded-lg border-t-4 border-gold">
-                <div class="p-5">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
-                            <i class="fa-solid fa-folder-open text-gold text-xl"></i>
-                        </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Total Applications</dt>
-                                <dd class="flex items-baseline">
-                                    <div class="text-2xl font-bold text-gray-900">{{ app_count }}</div>
-                                    <span class="ml-2 text-sm text-gray-500">Filed</span>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-5 py-3">
-                    <div class="text-sm">
-                        <a href="#user-applications" class="font-medium text-primary hover:text-secondary">
-                            View All List <span aria-hidden="true">&darr;</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white overflow-hidden shadow rounded-lg border-t-4 border-gold">
-                <div class="p-5">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
-                            <i class="fa-solid fa-magnifying-glass text-gold text-xl"></i>
-                        </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Trademark Status</dt>
-                                <dd class="flex items-baseline">
-                                    <div class="text-lg font-semibold text-gray-900">Track Application</div>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-5 py-3">
-                    <div class="text-sm">
-                        <a href="{% url 'check_status' %}" class="font-medium text-primary hover:text-secondary">Check now <span aria-hidden="true">&rarr;</span></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white overflow-hidden shadow rounded-lg border-t-4 border-primary">
-                <div class="p-5">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                            <i class="fa-solid fa-user text-primary text-xl"></i>
-                        </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">My Profile</dt>
-                                <dd class="flex items-baseline">
-                                    <div class="text-lg font-semibold text-gray-900">{{ user.email }}</div>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-5 py-3">
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-gray-500 cursor-not-allowed">Edit Profile (Coming Soon)</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white overflow-hidden shadow rounded-lg border-t-4 border-green-500">
-                <div class="p-5">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
-                            <i class="fa-brands fa-whatsapp text-green-600 text-xl"></i>
-                        </div>
-                        <div class="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">Need Help?</dt>
-                                <dd class="flex items-baseline">
-                                    <div class="text-lg font-semibold text-gray-900">Chat with Expert</div>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-5 py-3">
-                    <div class="text-sm">
-                        <a href="https://wa.me/919876543210" target="_blank" class="font-medium text-green-600 hover:text-green-700">Start Chat <span aria-hidden="true">&rarr;</span></a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="mt-12">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-900">Our Professional Services</h2>
-                </div>
-
-            <div class="space-y-12">
-                
-                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-primary">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Intellectual Property & Global IP</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {% for s in services_ip %}
-                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')" 
-                            class="group p-4 rounded-lg bg-gray-50 hover:bg-blue-50 transition border border-gray-100 hover:border-blue-200 cursor-pointer shadow-sm hover:shadow-md">
-                            <h4 class="font-bold text-gray-900 group-hover:text-primary">{{ s.title }}</h4>
-                            <p class="text-sm text-gray-600 mt-2 line-clamp-2">{{ s.short_description }}</p>
-                            <div class="mt-3 text-xs font-semibold text-blue-700 bg-blue-100 inline-block px-2 py-1 rounded">
-                                View Details &rarr;
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-gold">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Business Formation</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {% for s in services_business %}
-                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')"
-                            class="p-4 rounded border border-gray-200 hover:shadow-md transition bg-white cursor-pointer group">
-                            <div class="flex items-start">
-                                <i class="fa-solid fa-briefcase text-gold mt-1 mr-3 group-hover:scale-110 transition-transform"></i>
-                                <div>
-                                    <h4 class="font-semibold text-sm text-gray-900 group-hover:text-yellow-600">{{ s.title }}</h4>
-                                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ s.short_description }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-green-500">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Licenses & Registration</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {% for s in services_license %}
-                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')"
-                            class="p-4 rounded border border-gray-200 hover:shadow-md transition bg-white cursor-pointer group">
-                            <div class="flex items-start">
-                                <i class="fa-solid fa-certificate text-green-600 mt-1 mr-3 group-hover:scale-110 transition-transform"></i>
-                                <div>
-                                    <h4 class="font-semibold text-sm text-gray-900 group-hover:text-green-700">{{ s.title }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-red-500">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Litigation Services</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {% for s in services_litigation %}
-                        <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')"
-                            class="flex items-center p-4 bg-red-50 rounded-lg cursor-pointer hover:bg-red-100 transition">
-                            <i class="fa-solid fa-gavel text-red-600 text-xl mr-3"></i>
-                            <div>
-                                <h4 class="font-bold text-gray-900">{{ s.title }}</h4>
-                                <p class="text-xs text-gray-600 line-clamp-1">{{ s.short_description }}</p>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="service-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeServiceModal()"></div>
-
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+            {% if applications %}
+                <div class="glass rounded-[32px] border border-white/10 overflow-hidden">
+                    <div class="divide-y divide-white/5">
+                        {% for app in applications %}
+                        <div class="p-6 hover:bg-white/5 transition-colors">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                                 
-                                <div class="flex justify-between items-start border-b pb-3 mb-3">
-                                    <h3 class="text-2xl leading-6 font-bold text-primary" id="modal-title">Service Name</h3>
-                                    <span id="modal-price" class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-green-400">₹0</span>
-                                </div>
-
-                                <div class="mt-4">
-                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">Overview</p>
-                                    <p class="text-sm text-gray-700 mt-1 leading-relaxed" id="modal-desc">Description goes here...</p>
-                                </div>
-
-                                <div class="mt-4 bg-gray-50 p-3 rounded border border-gray-200">
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wide flex items-center">
-                                        <i class="fa-solid fa-file-lines mr-2"></i> Documents Required
-                                    </p>
-                                    <div class="text-sm text-gray-600 mt-2 ml-1" id="modal-docs">
-                                        </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <a id="modal-apply-btn" href="#" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-secondary focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
-                            Apply Now
-                        </a>
-                        <button type="button" onclick="closeServiceModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            function openServiceModal(title, desc, price, docs, slug) {
-                // 1. Data set karo
-                document.getElementById('modal-title').innerText = title;
-                document.getElementById('modal-desc').innerText = desc;
-                document.getElementById('modal-price').innerText = price || "Contact for Price";
-                document.getElementById('modal-docs').innerHTML = docs; // HTML allow kiya (linebreaks ke liye)
-
-                // 2. Apply Button ka Link set karo (URL Parameter ke saath)
-                // Link banega: /new-application/?service=trademark-registration
-                const applyLink = "{% url 'new_application' %}?service=" + slug;
-                document.getElementById('modal-apply-btn').href = applyLink;
-
-                // 3. Modal Dikhao
-                document.getElementById('service-modal').classList.remove('hidden');
-            }
-
-            function closeServiceModal() {
-                document.getElementById('service-modal').classList.add('hidden');
-            }
-        </script>
-        <h2 id="user-applications" class="mt-12 text-lg font-medium text-gray-900">Your Applications</h2>
-        <div class="mt-4 bg-white shadow overflow-hidden sm:rounded-md border border-gray-200">
-            <ul role="list" class="divide-y divide-gray-200">
-                
-                {% if applications %}
-                    {% for app in applications %}
-                    <li>
-                        <a href="#" class="block hover:bg-gray-50">
-                            <div class="px-4 py-4 sm:px-6">
-                                <div class="flex items-center justify-between">
-                                    <p class="text-sm font-medium text-primary truncate">
-                                        {{ app.trademark_name }} 
-                                        <span class="text-gray-500 font-normal">({{ app.application_number }})</span>
-                                    </p>
-                                    <div class="ml-4 flex-shrink-0 w-32 sm:w-48"> 
-                                        {% with step=app.status|get_progress_step %}
-                                        
-                                        <div class="hidden sm:flex justify-between text-[10px] font-bold text-gray-400 mb-1">
-                                            <span class="{% if step >= 1 %}text-primary{% endif %}">Filed</span>
-                                            <span class="{% if step >= 2 %}text-primary{% endif %}">Exam</span>
-                                            <span class="{% if step >= 3 %}text-primary{% endif %}">Jrnl</span>
-                                            <span class="{% if step >= 4 %}text-green-600{% endif %}">Reg</span>
-                                        </div>
-
-                                        <div class="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="absolute top-0 left-0 h-full rounded-full transition-all duration-500
-                                                {% if app.status == 'refused' or app.status == 'withdrawn' %} bg-red-500 w-full
-                                                {% elif step == 1 %} bg-primary w-[25%]
-                                                {% elif step == 2 %} bg-primary w-[50%]
-                                                {% elif step == 3 %} bg-primary w-[75%]
-                                                {% elif step == 4 %} bg-green-500 w-full
-                                                {% else %} bg-gray-300 w-0 {% endif %}">
-                                            </div>
-                                        </div>
-                                        
-                                        <p class="text-[10px] sm:text-xs mt-1 font-medium text-right
-                                            {% if app.status == 'refused' %}text-red-600
-                                            {% elif app.status == 'registered' %}text-green-600
-                                            {% else %}text-gray-500{% endif %}">
-                                            {{ app.get_status_display }}
-                                            
-                                        </p>
-
-                                        {% endwith %}
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="text-lg font-bold text-white">{{ app.trademark_name }}</h3>
+                                        <span class="text-xs font-mono text-slate-500 bg-white/5 px-2 py-1 rounded-lg">#{{ app.application_number }}</span>
                                     </div>
-                                    <a href="{% url 'upload_document' app.id %}" class="flex-shrink-0 inline-flex items-center px-3 py-1.5 border border-primary text-xs font-medium rounded text-primary bg-white hover:bg-blue-50 transition shadow-sm" title="Upload Documents">
-                                        <i class="fa-solid fa-cloud-arrow-up sm:mr-1"></i> 
-                                        <span class="hidden sm:inline">Upload</span>
+                                    <div class="flex items-center gap-4 text-xs text-slate-400">
+                                        <span><i class="fa-solid fa-user mr-1"></i> {{ app.applicant_name }}</span>
+                                        <span><i class="fa-solid fa-layer-group mr-1"></i> Class {{ app.trademark_class }}</span>
+                                        <span><i class="fa-regular fa-calendar mr-1"></i> {{ app.filing_date }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="w-full md:w-1/3">
+                                    {% with step=app.status|get_progress_step %}
+                                    <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider mb-2">
+                                        <span class="{% if step >= 1 %}text-lovable-blue{% else %}text-slate-600{% endif %}">Filed</span>
+                                        <span class="{% if step >= 2 %}text-lovable-blue{% else %}text-slate-600{% endif %}">Exam</span>
+                                        <span class="{% if step >= 3 %}text-lovable-blue{% else %}text-slate-600{% endif %}">Journal</span>
+                                        <span class="{% if step >= 4 %}text-green-400{% else %}text-slate-600{% endif %}">Reg</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                                        <div class="h-full rounded-full transition-all duration-1000 
+                                            {% if app.status == 'refused' %}bg-red-500 w-full
+                                            {% elif step == 1 %}bg-lovable-blue w-[25%]
+                                            {% elif step == 2 %}bg-lovable-blue w-[50%]
+                                            {% elif step == 3 %}bg-lovable-blue w-[75%]
+                                            {% elif step == 4 %}bg-green-400 w-full
+                                            {% else %}w-0{% endif %}">
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-right mt-1 font-bold uppercase
+                                        {% if app.status == 'refused' %}text-red-400
+                                        {% elif app.status == 'registered' %}text-green-400
+                                        {% else %}text-slate-500{% endif %}">
+                                        {{ app.get_status_display }}
+                                    </p>
+                                    {% endwith %}
+                                </div>
+
+                                <div>
+                                    <a href="{% url 'upload_document' app.id %}" class="flex items-center justify-center h-10 w-10 rounded-xl bg-white/5 text-slate-300 hover:text-white hover:bg-lovable-purple hover:scale-110 transition-all border border-white/10" title="Upload Documents">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
                                     </a>
                                 </div>
-                                <div class="mt-2 sm:flex sm:justify-between">
-                                    <div class="sm:flex">
-                                        <p class="flex items-center text-sm text-gray-500">
-                                            <i class="fa-solid fa-user mr-2 text-gray-400"></i>
-                                            {{ app.applicant_name }}
-                                        </p>
-                                        <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                                            <i class="fa-solid fa-layer-group mr-2 text-gray-400"></i>
-                                            Class {{ app.trademark_class }}
-                                        </p>
-                                    </div>
-                                    <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                                        <i class="fa-regular fa-calendar mr-2 text-gray-400"></i>
-                                        <p>Filed on <time datetime="{{ app.filing_date }}">{{ app.filing_date }}</time></p>
-                                    </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="glass p-10 rounded-[32px] border border-white/10 text-center">
+                    <div class="h-16 w-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-regular fa-folder-open text-2xl text-slate-500"></i>
+                    </div>
+                    <p class="text-slate-400">No applications found yet.</p>
+                    <a href="{% url 'new_application' %}" class="mt-4 inline-block text-sm font-bold text-lovable-purple hover:text-white transition-colors">Start your first application &rarr;</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-bold text-white mb-8">Explore Services</h2>
+            
+            <div class="space-y-10">
+                
+                {% if services_formation %}
+                <div>
+                    <h3 class="text-lg font-bold text-slate-300 mb-4 flex items-center">
+                        <i class="fa-solid fa-briefcase mr-3 text-lovable-blue"></i> Business Formation
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for s in services_formation %}
+                            <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')" 
+                                 class="glass p-5 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer group transition-all duration-300 hover:border-blue-500/30">
+                                <h4 class="font-bold text-white text-sm group-hover:text-lovable-blue transition-colors mb-1">{{ s.title }}</h4>
+                                <p class="text-xs text-slate-400 line-clamp-2">{{ s.short_description }}</p>
+                                <div class="mt-3 flex items-center text-[10px] font-bold text-lovable-blue opacity-0 group-hover:opacity-100 transition-opacity">
+                                    View Details <i class="fa-solid fa-arrow-right ml-1"></i>
                                 </div>
                             </div>
-                        </a>
-                    </li>
-                    {% endfor %}
-                {% else %}
-                    <li class="px-4 py-12 text-center text-gray-500">
-                        <i class="fa-regular fa-folder-open text-4xl mb-3 text-gray-300"></i>
-                        <p>No applications found.</p>
-                        <a href="{% url 'new_application' %}" class="mt-2 inline-block text-sm font-medium text-primary hover:underline">Start a new application</a>
-                    </li>
+                        {% endfor %}
+                    </div>
+                </div>
                 {% endif %}
 
-            </ul>
+                {% if services_license %}
+                <div>
+                    <h3 class="text-lg font-bold text-slate-300 mb-4 flex items-center">
+                        <i class="fa-solid fa-certificate mr-3 text-lovable-purple"></i> Licenses & Registration
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for s in services_license %}
+                            <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')" 
+                                 class="glass p-5 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer group transition-all duration-300 hover:border-purple-500/30">
+                                <h4 class="font-bold text-white text-sm group-hover:text-lovable-purple transition-colors mb-1">{{ s.title }}</h4>
+                                <p class="text-xs text-slate-400 line-clamp-2">{{ s.short_description }}</p>
+                                <div class="mt-3 flex items-center text-[10px] font-bold text-lovable-purple opacity-0 group-hover:opacity-100 transition-opacity">
+                                    View Details <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if services_litigation %}
+                <div>
+                    <h3 class="text-lg font-bold text-slate-300 mb-4 flex items-center">
+                        <i class="fa-solid fa-gavel mr-3 text-lovable-pink"></i> Litigation Services
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for s in services_litigation %}
+                            <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')" 
+                                 class="glass p-5 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer group transition-all duration-300 hover:border-pink-500/30">
+                                <h4 class="font-bold text-white text-sm group-hover:text-lovable-pink transition-colors mb-1">{{ s.title }}</h4>
+                                <p class="text-xs text-slate-400 line-clamp-2">{{ s.short_description }}</p>
+                                <div class="mt-3 flex items-center text-[10px] font-bold text-lovable-pink opacity-0 group-hover:opacity-100 transition-opacity">
+                                    View Details <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if services_ip %}
+                <div>
+                    <h3 class="text-lg font-bold text-slate-300 mb-4 flex items-center">
+                        <i class="fa-solid fa-copyright mr-3 text-lovable-purple"></i> Intellectual Property (India)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for s in services_ip %}
+                            <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')" 
+                                 class="glass p-5 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer group transition-all duration-300 hover:border-purple-500/30">
+                                <h4 class="font-bold text-white text-sm group-hover:text-lovable-purple transition-colors mb-1">{{ s.title }}</h4>
+                                <p class="text-xs text-slate-400 line-clamp-2">{{ s.short_description }}</p>
+                                <div class="mt-3 flex items-center text-[10px] font-bold text-lovable-purple opacity-0 group-hover:opacity-100 transition-opacity">
+                                    View Details <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if services_global_ip %}
+                <div>
+                    <h3 class="text-lg font-bold text-slate-300 mb-4 flex items-center">
+                        <i class="fa-solid fa-globe mr-3 text-lovable-blue"></i> Global IP Services
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {% for s in services_global_ip %}
+                            <div onclick="openServiceModal('{{ s.title }}', '{{ s.detailed_description|escapejs }}', '{{ s.price_estimate }}', '{{ s.documents_required|linebreaksbr|escapejs }}', '{{ s.slug }}')" 
+                                 class="glass p-5 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer group transition-all duration-300 hover:border-blue-500/30">
+                                <h4 class="font-bold text-white text-sm group-hover:text-lovable-blue transition-colors mb-1">{{ s.title }}</h4>
+                                <p class="text-xs text-slate-400 line-clamp-2">{{ s.short_description }}</p>
+                                <div class="mt-3 flex items-center text-[10px] font-bold text-lovable-blue opacity-0 group-hover:opacity-100 transition-opacity">
+                                    View Details <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
         </div>
 
     </div>
 </div>
 
-<div id="legal-disclaimer-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[60] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black/60 backdrop-blur-sm">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <div class="relative bg-white rounded-lg shadow-2xl border-t-4 border-gold">
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                <h3 class="text-xl font-bold text-gray-900 flex items-center">
-                    <i class="fa-solid fa-scale-balanced text-primary mr-3"></i>
-                    Important Legal Disclaimer
-                </h3>
-            </div>
-            <div class="p-4 md:p-5 space-y-4">
-                <p class="text-base leading-relaxed text-gray-600">
-                    <strong>Manyan IP Services</strong> is a private legal consultancy firm acting as a facilitator for Trademark & IP registration.
-                </p>
-                <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2">
-                    <li>We are <strong>NOT</strong> the Government of India or the "Controller General of Patents, Designs and Trade Marks".</li>
-                    <li>We are a team of attorneys and legal experts who assist in filing and managing applications.</li>
-                    <li>The final grant of a Trademark is solely at the discretion of the Government Registry. No consultancy can guarantee registration.</li>
-                </ul>
-                <div class="bg-blue-50 p-3 rounded border border-blue-100 text-xs text-blue-800 mt-2">
-                    Please acknowledge that you are hiring us for professional legal assistance and not for any government-issued guarantee.
+<div id="service-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-lovable-dark/90 backdrop-blur-sm transition-opacity" onclick="closeServiceModal()"></div>
+
+    <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+            
+            <div class="glass relative transform overflow-hidden rounded-[32px] border border-white/10 text-left shadow-2xl transition-all sm:w-full sm:max-w-lg">
+                
+                <div class="bg-gradient-to-r from-lovable-purple/20 to-lovable-blue/10 px-6 py-4 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-white leading-6" id="modal-title">Service Name</h3>
+                    <span id="modal-price" class="bg-lovable-blue/20 text-lovable-blue text-xs font-bold px-3 py-1 rounded-full border border-lovable-blue/30">₹0</span>
                 </div>
-            </div>
-            <div class="p-4 md:p-5 border-t border-gray-200 rounded-b bg-gray-50">
-                <div class="flex items-center mb-4">
-                    <input id="disclaimer-checkbox" type="checkbox" value="" class="w-5 h-5 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2 cursor-pointer">
-                    <label for="disclaimer-checkbox" class="ms-2 text-sm font-medium text-gray-900 cursor-pointer select-none">
-                        I have read and understood the disclaimer above.
-                    </label>
+
+                <div class="px-6 py-6 space-y-6">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Overview</p>
+                        <p class="text-sm text-slate-300 leading-relaxed" id="modal-desc">Description goes here...</p>
+                    </div>
+
+                    <div class="bg-white/5 p-5 rounded-2xl border border-white/5">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center">
+                            <i class="fa-solid fa-file-lines mr-2 text-lovable-purple"></i> Documents Required
+                        </p>
+                        <div class="text-sm text-slate-300 ml-1 leading-relaxed" id="modal-docs">
+                            </div>
+                    </div>
                 </div>
-                <div class="flex justify-end">
-                    <button id="accept-btn" onclick="acceptDisclaimer()" type="button" disabled class="text-white bg-primary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center opacity-50 cursor-not-allowed transition-all">
-                        Agree & Continue
+
+                <div class="bg-white/5 px-6 py-4 border-t border-white/5 flex flex-row-reverse gap-3">
+                    <a id="modal-apply-btn" href="#" class="w-full inline-flex justify-center rounded-xl border border-transparent bg-gradient-to-r from-lovable-purple to-lovable-blue px-4 py-3 text-sm font-bold text-white shadow-lg hover:scale-[1.02] transition-transform">
+                        Start Application
+                    </a>
+                    <button type="button" onclick="closeServiceModal()" class="mt-0 w-auto inline-flex justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
+                        Close
                     </button>
                 </div>
             </div>
@@ -383,32 +282,20 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 1. SHOW MODAL ALWAYS
-        const modal = document.getElementById('legal-disclaimer-modal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+    function openServiceModal(title, desc, price, docs, slug) {
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-desc').innerText = desc;
+        document.getElementById('modal-price').innerText = price || "On Request";
+        document.getElementById('modal-docs').innerHTML = docs; 
+        
+        const applyLink = "{% url 'new_application' %}?service=" + slug;
+        document.getElementById('modal-apply-btn').href = applyLink;
 
-        // 2. Button Logic (Checkbox)
-        const checkbox = document.getElementById('disclaimer-checkbox');
-        const btn = document.getElementById('accept-btn');
+        document.getElementById('service-modal').classList.remove('hidden');
+    }
 
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                btn.disabled = false;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
-                btn.disabled = true;
-                btn.classList.add('opacity-50', 'cursor-not-allowed');
-            }
-        });
-    });
-
-    function acceptDisclaimer() {
-        const modal = document.getElementById('legal-disclaimer-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+    function closeServiceModal() {
+        document.getElementById('service-modal').classList.add('hidden');
     }
 </script>
-
 {% endblock %}

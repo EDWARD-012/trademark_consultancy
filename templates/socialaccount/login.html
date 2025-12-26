@@ -3,48 +3,55 @@
 {% load i18n %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="min-h-[80vh] flex flex-col justify-center py-12 px-6 lg:px-8 relative overflow-hidden">
     
-    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <img class="mx-auto h-16 w-auto object-contain" src="{% static 'images/logo.png' %}" alt="Manyan IP Services">
+    <div class="fixed top-1/4 left-1/4 w-[40%] h-[40%] rounded-full bg-lovable-purple/10 blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-1/4 right-1/4 w-[40%] h-[40%] rounded-full bg-lovable-blue/10 blur-[120px] pointer-events-none"></div>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10">
+        <img class="mx-auto h-14 w-auto object-contain brightness-110 mb-8" src="{% static 'images/logo.png' %}" alt="Manyan IP Services">
         
-        <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-            {% trans "Sign In" %}
+        <h2 class="text-3xl font-extrabold text-white tracking-tight">
+            {% trans "Secure Access" %}
         </h2>
-        <p class="mt-2 text-sm text-gray-600">
-            {% blocktrans with provider.name as provider %}You are about to connect your {{ provider }} account.{% endblocktrans %}
+        <p class="mt-3 text-slate-400 text-sm">
+            {% blocktrans with provider.name as provider %}Connecting your {{ provider }} account to Manyan IP.{% endblocktrans %}
         </p>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 shadow-xl sm:rounded-lg sm:px-10 border border-gray-200">
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+        <div class="glass p-8 md:p-10 rounded-[40px] border border-white/10 shadow-2xl backdrop-blur-2xl">
             
-            <div class="flex justify-center mb-6">
-                <div class="h-16 w-16 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="h-8 w-8">
+            <div class="flex justify-center mb-8">
+                <div class="h-20 w-20 bg-white/5 rounded-[24px] border border-white/10 flex items-center justify-center shadow-lg group hover:border-lovable-purple/40 transition-all duration-500">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="h-10 w-10 transition-transform group-hover:scale-110">
                 </div>
             </div>
 
-            <p class="text-center text-gray-700 mb-6 text-sm">
-                To continue to <strong>Manyan IP Services</strong>, please click the button below to authorize Google.
+            <p class="text-center text-slate-300 mb-8 text-sm leading-relaxed">
+                To continue to <strong class="text-white">Manyan IP Services</strong>, please click below to authorize via Google Secure Login.
             </p>
 
             <form method="post" class="space-y-6">
                 {% csrf_token %}
                 
-                <button type="submit" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
-                    Continue to Google
-                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                <button type="submit" class="w-full flex justify-center items-center py-4 px-6 bg-gradient-to-r from-lovable-purple to-lovable-blue text-white font-bold rounded-2xl shadow-lg shadow-lovable-purple/20 hover:shadow-lovable-purple/40 hover:scale-[1.02] active:scale-95 transition-all duration-300">
+                    <span>{% trans "Continue with Google" %}</span>
+                    <i class="fa-solid fa-arrow-right ml-3 text-sm opacity-70"></i>
                 </button>
             </form>
 
-            <div class="mt-6 text-center">
-                <a href="{% url 'account_login' %}" class="text-sm font-medium text-gray-400 hover:text-gray-600 transition">
-                    Cancel and go back
+            <div class="mt-8 text-center">
+                <a href="{% url 'account_login' %}" class="text-xs font-bold text-slate-500 hover:text-white transition-colors tracking-widest uppercase">
+                    {% trans "Cancel and go back" %}
                 </a>
             </div>
 
         </div>
+
+        <p class="mt-8 text-center text-[10px] text-slate-600 uppercase tracking-[0.2em]">
+            <i class="fa-solid fa-shield-halved mr-2"></i> End-to-End Encrypted Authentication
+        </p>
     </div>
 </div>
 {% endblock %}

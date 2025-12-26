@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from core.views import home, contact, dashboard, submit_lead_ajax, upload_document  # Import contact
+from core.views import home, contact, dashboard, submit_lead_ajax, upload_document, delete_document  # Import contact
 from services.views import check_status, service_detail
 from services import views as service_views
 
@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', home, name='home'),
-    path('submit-lead-ajax/', submit_lead_ajax, name='submit_lead_ajax'),
+   path('submit-lead/', submit_lead_ajax, name='ajax_lead_submit'),
     path('accounts/', include('accounts.urls')),
     path('status/', check_status, name='check_status'),
     path('contact/', contact, name='contact'), # New Path
@@ -34,9 +34,11 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('new-application/', service_views.new_application, name='new_application'),
     path('application/<int:app_id>/upload/', upload_document, name='upload_document'),
+    path('document/delete/<int:doc_id>/', delete_document, name='delete_document'),
 ]
 
 # Serve static files in development
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0] if settings.STATICFILES_DIRS else None)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

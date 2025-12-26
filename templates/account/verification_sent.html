@@ -1,31 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 shadow-xl sm:rounded-lg sm:px-10 text-center border-t-4 border-gold">
+<div class="min-h-[80vh] flex flex-col justify-center py-12 px-6 lg:px-8 relative overflow-hidden">
+    
+    <div class="fixed top-1/4 left-1/4 w-[40%] h-[40%] rounded-full bg-lovable-purple/10 blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-1/4 right-1/4 w-[40%] h-[40%] rounded-full bg-lovable-blue/10 blur-[120px] pointer-events-none"></div>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+        <div class="glass p-10 rounded-[40px] border border-white/10 shadow-2xl backdrop-blur-2xl text-center">
             
-            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-50 mb-6">
-                <i class="fa-regular fa-paper-plane text-3xl text-primary"></i>
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-3xl bg-lovable-blue/10 border border-lovable-blue/20 mb-8 shadow-lg shadow-lovable-blue/10">
+                <i class="fa-regular fa-paper-plane text-3xl text-lovable-blue animate-bounce"></i>
             </div>
 
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Verification Email Sent!</h2>
-            <p class="text-gray-600 mb-6">
+            <h2 class="text-3xl font-extrabold text-white tracking-tight mb-4">Verification Sent!</h2>
+            
+            <p class="text-slate-400 text-sm leading-relaxed mb-8">
                 We have sent a confirmation link to your email address. 
                 <br>Please check your inbox (and spam folder) to activate your account.
             </p>
 
-            <div class="bg-blue-50 p-4 rounded-lg text-sm text-blue-800 mb-6">
-                <strong>Tip:</strong> If you don't see it within 2 minutes, check your <em>Spam</em> or <em>Promotions</em> tab.
+            <div class="bg-lovable-blue/5 p-5 rounded-2xl border border-lovable-blue/10 text-xs text-blue-300 leading-relaxed mb-10">
+                <strong class="text-white">Tip:</strong> If you don't see it within 2 minutes, please check your <em class="text-lovable-purple">Spam</em> or <em class="text-lovable-purple">Promotions</em> tab.
             </div>
             
-            <div class="mt-6 border-t border-gray-100 pt-4">
-                <p class="text-sm text-gray-500">Wrong email?</p>
-                <a href="{% url 'account_login' %}" class="text-sm font-medium text-primary hover:text-secondary">
-                    &larr; Back to Login
+            <div class="mt-8 pt-8 border-t border-white/5 space-y-4">
+                <p class="text-xs text-slate-500">Need to try another address?</p>
+                <a href="{% url 'account_login' %}" class="inline-flex items-center text-sm font-bold text-white hover:text-lovable-blue transition-all duration-300">
+                    <i class="fa-solid fa-arrow-left mr-2 text-xs"></i> Back to Login
                 </a>
             </div>
         </div>
     </div>
+
+    <p class="mt-8 text-center text-[10px] text-slate-600 uppercase tracking-[0.2em] relative z-10">
+        <i class="fa-solid fa-shield-halved mr-2"></i> Manyan IP Secure Authentication
+    </p>
 </div>
 {% endblock %}

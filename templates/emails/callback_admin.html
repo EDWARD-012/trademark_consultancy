@@ -1,57 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; color: #333; }
-        .alert-box { max-width: 600px; margin: 20px auto; border: 2px solid #d97706; border-radius: 8px; overflow: hidden; }
-        .header { background: #d97706; color: #fff; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; }
-        .content { padding: 20px; background: #fff; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        .label { font-weight: bold; color: #555; width: 30%; }
-        .value { color: #000; font-weight: bold; }
-        .footer { background: #f9fafb; padding: 10px; text-align: center; font-size: 12px; color: #888; }
+        /* Email client compatibility ke liye simple CSS */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #020817; margin: 0; padding: 20px; }
+        .alert-box { max-width: 600px; margin: 0 auto; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        
+        /* Header Gradient */
+        .header { background: linear-gradient(135deg, #9b87f5 0%, #7E69AB 100%); color: #ffffff; padding: 30px 20px; text-align: center; }
+        .header h2 { margin: 0; font-size: 22px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .icon { font-size: 30px; margin-bottom: 10px; display: block; }
+        
+        .content { padding: 30px; }
+        .intro { color: #94a3b8; font-size: 14px; text-align: center; margin-bottom: 25px; line-height: 1.5; }
+        
+        /* Table Styling */
+        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        td { padding: 15px; vertical-align: top; }
+        .label-cell { background: rgba(255,255,255,0.03); width: 30%; color: #64748b; font-size: 11px; text-transform: uppercase; font-weight: bold; border-radius: 10px 0 0 10px; }
+        .value-cell { background: rgba(255,255,255,0.05); color: #ffffff; font-size: 14px; font-weight: 500; border-radius: 0 10px 10px 0; }
+        
+        /* Highlight Service */
+        .highlight { color: #9b87f5; font-weight: bold; }
+        
+        /* CTA Button */
+        .action-btn { display: block; width: 80%; margin: 30px auto 0; padding: 15px; background-color: #9b87f5; color: #ffffff; text-align: center; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 16px; }
+        
+        .footer { background: rgba(0,0,0,0.2); padding: 15px; text-align: center; font-size: 11px; color: #475569; border-top: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
     <div class="alert-box">
-        <div class="header">🔔 New Website Lead Received</div>
+        <div class="header">
+            <span class="icon">⚡</span>
+            <h2>New Lead Captured</h2>
+        </div>
         
         <div class="content">
-            <p>You have a new consultation request from the website.</p>
+            <p class="intro">
+                You have a new consultation request from the website.
+                <br>Please review the details below.
+            </p>
             
             <table>
                 <tr>
-                    <td class="label">Name:</td>
-                    <td class="value">{{ name }}</td>
+                    <td class="label-cell">Client Name</td>
+                    <td class="value-cell">{{ name }}</td>
                 </tr>
                 <tr>
-                    <td class="label">Phone:</td>
-                    <td class="value">
-                        <a href="tel:{{ phone }}" style="color:#1e3a8a; text-decoration:none;">{{ phone }}</a>
+                    <td class="label-cell">Phone</td>
+                    <td class="value-cell">
+                        <a href="tel:{{ phone }}" style="color: #9b87f5; text-decoration: none;">{{ phone }}</a>
                     </td>
                 </tr>
                 <tr>
-                    <td class="label">Email:</td>
-                    <td class="value">{{ email }}</td>
+                    <td class="label-cell">Email</td>
+                    <td class="value-cell">{{ email }}</td>
                 </tr>
                 <tr>
-                    <td class="label">Service Interest:</td>
-                    <td class="value" style="color:#d97706;">{{ service }}</td>
+                    <td class="label-cell">Service</td>
+                    <td class="value-cell highlight">{{ service }}</td>
                 </tr>
                 <tr>
-                    <td class="label">Message:</td>
-                    <td class="value" style="font-weight:normal;">{{ message }}</td>
+                    <td class="label-cell">Message</td>
+                    <td class="value-cell" style="font-style: italic; color: #cbd5e1;">"{{ message }}"</td>
                 </tr>
             </table>
 
-            <p style="margin-top: 20px; font-size: 14px; color: #666;">
-                <i>Please contact the client within 24 hours.</i>
-            </p>
+            <a href="tel:{{ phone }}" class="action-btn">Call Client Now</a>
         </div>
         
         <div class="footer">
-            Admin Notification System - Manyan IP
+            Internal Notification • Manyan IP Admin System
         </div>
     </div>
 </body>

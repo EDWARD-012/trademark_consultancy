@@ -1,52 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Update - Manyan IP</title>
     <style>
-        /* Email clients strip external CSS, so we use inline styles mostly, 
-           but this block helps for some clients */
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0; }
-        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
-        .header { background-color: #1e3a8a; padding: 30px; text-align: center; }
-        .content { padding: 40px 30px; color: #333333; line-height: 1.6; }
-        .status-box { background-color: #f8fafc; border-left: 5px solid #fbbf24; padding: 15px; margin: 20px 0; }
-        .footer { background-color: #111827; padding: 20px; text-align: center; color: #9ca3af; font-size: 12px; }
-        .button { background-color: #fbbf24; color: #1e3a8a; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; margin-top: 20px; }
+        /* Base Resets */
+        body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #0F172A; }
+        table { border-collapse: collapse; }
+        
+        /* Mobile Responsive */
+        @media only screen and (max-width: 600px) {
+            .container { width: 100% !important; }
+            .content { padding: 20px !important; }
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 1px;">MANYAN IP SERVICES</h1>
-            <p style="color: #fbbf24; margin: 5px 0 0; font-size: 12px; text-transform: uppercase;">Legal Excellence & IP Protection</p>
-        </div>
+<body style="background-color: #0F172A; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 40px 0;">
 
-        <div class="content">
-            <p>Dear <strong>{{ user_name }}</strong>,</p>
-            
-            <p>This is an automated notification regarding your Trademark Application.</p>
-            
-            <p>The status of your application has been updated by the Registry.</p>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+            <td align="center" style="padding: 20px;">
+                
+                <table class="container" width="600" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #1E293B; border-radius: 24px; border: 1px solid #334155; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+                    
+                    <tr>
+                        <td height="6" style="background: linear-gradient(90deg, #9b87f5, #0ea5e9);"></td>
+                    </tr>
 
-            <div class="status-box">
-                <p style="margin: 0 0 10px;"><strong>Application No:</strong> {{ app_number }}</p>
-                <p style="margin: 0 0 10px;"><strong>Trademark:</strong> {{ trademark_name }}</p>
-                <p style="margin: 0;"><strong>New Status:</strong> <span style="color: #1e3a8a; font-weight: bold; font-size: 18px;">{{ new_status }}</span></p>
-            </div>
+                    <tr>
+                        <td class="content" style="padding: 40px 40px 20px 40px; text-align: center;">
+                            <div style="display: inline-block; width: 60px; height: 60px; line-height: 60px; background-color: rgba(251, 191, 36, 0.15); border-radius: 50%; color: #fbbf24; font-size: 28px; margin-bottom: 20px; border: 1px solid rgba(251, 191, 36, 0.3);">
+                                🔄
+                            </div>
+                            
+                            <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">Status Update</h1>
+                            <p style="margin: 10px 0 0; color: #94a3b8; font-size: 15px; line-height: 1.6;">
+                                Dear <strong style="color: #ffffff;">{{ user_name }}</strong>,<br>
+                                The registry has updated your application status.
+                            </p>
+                        </td>
+                    </tr>
 
-            <p>Please log in to your dashboard to view full details and check if any action is required from your side (such as filing a reply to an objection).</p>
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <div style="height: 1px; background-color: #334155; width: 100%;"></div>
+                        </td>
+                    </tr>
 
-            <center>
-                <a href="{{ dashboard_link }}" class="button">Go to Dashboard</a>
-            </center>
+                    <tr>
+                        <td class="content" style="padding: 30px 40px;">
+                            
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #0F172A; border-radius: 16px; border: 1px solid #334155;">
+                                <tr>
+                                    <td style="padding: 25px;">
+                                        
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 20px;">
+                                            <tr>
+                                                <td valign="top" style="padding-bottom: 10px;">
+                                                    <span style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: bold; letter-spacing: 1px;">Application No</span><br>
+                                                    <span style="color: #ffffff; font-size: 14px; font-weight: 500;">{{ app_number }}</span>
+                                                </td>
+                                                <td valign="top" style="padding-bottom: 10px; text-align: right;">
+                                                    <span style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: bold; letter-spacing: 1px;">Trademark</span><br>
+                                                    <span style="color: #ffffff; font-size: 14px; font-weight: 500;">{{ trademark_name }}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
 
-            <br>
-            <p>Best Regards,<br><strong>Manyan IP Legal Team</strong></p>
-        </div>
+                                        <div style="height: 1px; background-color: #1E293B; width: 100%; margin-bottom: 20px;"></div>
 
-        <div class="footer">
-            <p>&copy; 2025 Manyan IP Services. All rights reserved.</p>
-            <p>This is a system-generated email. Please do not reply directly to this address.</p>
-        </div>
-    </div>
+                                        <div style="text-align: center;">
+                                            <span style="font-size: 12px; text-transform: uppercase; color: #9b87f5; font-weight: bold; letter-spacing: 1px;">Current Status</span>
+                                            <div style="margin-top: 5px; font-size: 22px; font-weight: 800; color: #38bdf8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);">
+                                                {{ new_status }}
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 0 40px 40px 40px; text-align: center;">
+                            <p style="margin: 0 0 25px; color: #94a3b8; font-size: 14px;">
+                                Please check your dashboard to see if any action (like filing a reply) is required.
+                            </p>
+                            
+                            <a href="{{ dashboard_link }}" style="background: #7c3aed; background: linear-gradient(90deg, #7c3aed, #2563eb); border: 1px solid #6d28d9; color: #ffffff; padding: 14px 30px; text-decoration: none; border-radius: 12px; font-weight: bold; display: inline-block; font-size: 16px; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);">
+                                Check Dashboard &rarr;
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="background-color: #0F172A; padding: 25px; text-align: center; border-top: 1px solid #334155;">
+                            <p style="color: #475569; font-size: 12px; margin: 0; line-height: 1.5;">
+                                Best Regards,<br>
+                                <strong style="color: #64748b;">Manyan IP Legal Team</strong>
+                            </p>
+                            <p style="color: #334155; font-size: 11px; margin-top: 15px;">
+                                This is a system-generated update.<br>
+                                &copy; 2025 Manyan IP Services.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
 </body>
 </html>

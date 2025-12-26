@@ -148,10 +148,11 @@ class TrademarkApplication(models.Model):
 # --- SERVICE MODEL ---
 class Service(models.Model):
     CATEGORY_CHOICES = [
-        ('business', 'Formation of Business'),
-        ('license', 'Licenses & Registration'),
-        ('litigation', 'Litigation Services'),
+        ('formation', 'Formation of Business'),
+        ('license', 'License'),
+        ('litigation', 'Litigation'),
         ('ip', 'Intellectual Property (IP)'),
+        ('global_ip', 'Global IP'),
     ]
 
     title = models.CharField(max_length=200)
@@ -186,14 +187,16 @@ class Lead(models.Model):
     
 
 # 🔥 FIXED APPLICATION DOCUMENT MODEL 🔥
+# core/models.py
+
 class ApplicationDocument(models.Model):
     application = models.ForeignKey(TrademarkApplication, on_delete=models.CASCADE, related_name='documents')
     
-    # Replaced 'doc_type' with 'document_name' to match the Form
-    document_name = models.CharField(max_length=100, help_text="e.g. PAN Card, Logo")
+    # 🔥 ISKO WAPAS 'doc_type' KAR DO (Database yahi chahta hai)
+    doc_type = models.CharField(max_length=100, help_text="e.g. PAN Card, Logo")  
     
-    file = models.FileField(upload_to='documents/%Y/%m/') # Year/Month wise folders
+    file = models.FileField(upload_to='documents/%Y/%m/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.document_name} - {self.application.application_number}"
+        return f"{self.doc_type} - {self.application.application_number}"

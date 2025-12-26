@@ -1,35 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
-        .container { max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
-        .header { background: #1e3a8a; color: #ffffff; padding: 20px; text-align: center; }
-        .content { padding: 20px; background-color: #ffffff; }
-        .highlight { color: #d97706; font-weight: bold; }
-        .footer { background-color: #f3f4f6; padding: 15px; text-align: center; font-size: 12px; color: #666; }
-        .btn { display: inline-block; padding: 10px 20px; background-color: #d97706; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 15px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #020817; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        
+        .header { background: linear-gradient(135deg, #9b87f5 0%, #3b82f6 100%); color: #ffffff; padding: 40px 20px; text-align: center; }
+        .header h2 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        .header p { margin: 5px 0 0; font-size: 13px; opacity: 0.9; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+
+        .content { padding: 40px 30px; color: #cbd5e1; line-height: 1.6; }
+        .greeting { color: #ffffff; font-size: 18px; margin-bottom: 20px; }
+        
+        /* Service Highlight Box */
+        .service-box { background: rgba(155, 135, 245, 0.1); border-left: 4px solid #9b87f5; padding: 20px; margin: 25px 0; border-radius: 0 12px 12px 0; }
+        .service-name { display: block; color: #9b87f5; font-weight: bold; font-size: 16px; margin-top: 5px; }
+        .service-label { font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: bold; letter-spacing: 1px; }
+
+        .footer { background: rgba(0,0,0,0.2); padding: 25px; text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); }
+        
+        .btn { display: inline-block; padding: 12px 25px; background: rgba(255,255,255,0.05); color: #ffffff; text-decoration: none; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; margin-top: 20px; font-weight: bold; }
+        .btn:hover { background: #9b87f5; border-color: #9b87f5; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2 style="margin:0;">Manyan IP Services</h2>
-            <p style="margin:5px 0 0; font-size: 14px; color: #fbbf24;">Your Trusted Legal Partner</p>
+            <h2>Manyan IP Services</h2>
+            <p>Your Trusted Legal Partner</p>
         </div>
 
         <div class="content">
-            <p>Dear <strong>{{ name }}</strong>,</p>
+            <div class="greeting">Hello {{ name }},</div>
             
-            <p>Thank you for reaching out to us! We have received your callback request regarding <span class="highlight">{{ service }}</span>.</p>
+            <p>Thank you for reaching out! We have successfully received your callback request.</p>
             
-            <p>Our legal expert is reviewing your query and will contact you shortly at <strong>{{ phone }}</strong>.</p>
+            <div class="service-box">
+                <span class="service-label">Regarding Interest In</span>
+                <span class="service-name">{{ service }}</span>
+            </div>
             
+            <p>Our legal expert is currently reviewing your query and will contact you shortly at <strong style="color:white;">{{ phone }}</strong> within the next 24 hours.</p>
+            
+            <div style="text-align: center;">
+                <a href="https://trademark-consultancy.vercel.app/" class="btn">Visit Website</a>
+            </div>
         </div>
 
         <div class="footer">
             <p>&copy; 2025 Manyan IP Services. All rights reserved.</p>
-            <p>This is an automated message. Please do not reply directly to this email.</p>
+            <p>This is an automated message. Please do not reply directly.</p>
         </div>
     </div>
 </body>

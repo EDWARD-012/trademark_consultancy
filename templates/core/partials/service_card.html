@@ -1,0 +1,20 @@
+<div onclick="openServiceModal('{{ service.title }}', '{{ service.detailed_description|escapejs }}', '{{ service.price_estimate }}', '{{ service.documents_required|linebreaksbr|escapejs }}', '{{ service.slug }}')" 
+     class="glass p-5 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer group transition-all duration-300 hover:border-{{ color }}-500/30">
+    <div class="flex items-start gap-3">
+        <div class="mt-1 h-8 w-8 rounded-lg bg-{{ color }}-500/10 flex items-center justify-center text-{{ color }}-400 group-hover:scale-110 transition-transform">
+            {% if color == 'blue' %}
+                <i class="fa-solid fa-briefcase"></i>
+            {% elif color == 'purple' %}
+                <i class="fa-solid fa-certificate"></i>
+            {% elif color == 'pink' %}
+                <i class="fa-solid fa-gavel"></i>
+            {% else %}
+                <i class="fa-solid fa-star"></i>
+            {% endif %}
+        </div>
+        <div>
+            <h4 class="font-bold text-white text-sm group-hover:text-lovable-{{ color }} transition-colors">{{ service.title }}</h4>
+            <p class="text-xs text-slate-400 mt-1 line-clamp-2">{{ service.short_description }}</p>
+        </div>
+    </div>
+</div>

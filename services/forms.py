@@ -50,21 +50,21 @@ class LeadForm(forms.ModelForm):
         model = Lead
         fields = ['name', 'phone', 'email', 'service_interested', 'message']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Your Name'}),
-            'phone': forms.TextInput(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Phone Number'}),
-            'email': forms.EmailInput(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Email Address'}),
-            'service_interested': forms.TextInput(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Service (e.g. Trademark)'}),
-            'message': forms.Textarea(attrs={'class': 'w-full p-3 border rounded-lg bg-gray-50 focus:ring-primary focus:border-primary', 'placeholder': 'Tell us about your requirement...', 'rows': 4}),
+            'name': forms.TextInput(attrs={'class': 'w-full px-4 py-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lovable-purple/60 transition', 'placeholder': 'Your Name'}),
+            'phone': forms.TextInput(attrs={'class': 'w-full px-4 py-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lovable-purple/60 transition', 'placeholder': 'Phone Number'}),
+            'email': forms.EmailInput(attrs={'class': 'w-full px-4 py-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lovable-purple/60 transition', 'placeholder': 'Email Address'}),
+            'service_interested': forms.TextInput(attrs={'class': 'w-full px-4 py-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lovable-purple/60 transition', 'placeholder': 'Service (e.g. Trademark)'}),
+            'message': forms.Textarea(attrs={'class': 'w-full px-4 py-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lovable-purple/60 transition', 'placeholder': 'Tell us about your requirement...', 'rows': 4}),
         }
 
 class DocumentUploadForm(forms.ModelForm):
     class Meta:
         model = ApplicationDocument
-        fields = ['document_name', 'file']
+        fields = ['doc_type', 'file']
         
         widgets = {
             'document_name': forms.TextInput(attrs={
-                'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2 px-3',
+                'class': 'block w-full px-4 py-3 rounded-xl bg-gray/5 backdrop-blur-md border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lovable-purple/60 transition',
                 'placeholder': 'Document Name (e.g. PAN Card, Logo)'
             }),
             'file': forms.FileInput(attrs={

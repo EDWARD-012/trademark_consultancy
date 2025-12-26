@@ -1,64 +1,126 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Received - Manyan IP</title>
     <style>
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0; }
-        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
-        .header { background-color: #1e3a8a; padding: 30px; text-align: center; }
-        .content { padding: 40px 30px; color: #333333; line-height: 1.6; }
-        .details-box { background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 20px; margin: 20px 0; }
-        .footer { background-color: #111827; padding: 20px; text-align: center; color: #9ca3af; font-size: 12px; }
-        .button { background-color: #fbbf24; color: #1e3a8a; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; margin-top: 20px; }
-        .label { font-size: 12px; color: #6b7280; text-transform: uppercase; font-weight: bold; }
-        .value { font-size: 16px; color: #111827; margin-bottom: 10px; display: block; font-weight: 500; }
+        /* Base Resets */
+        body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #0F172A; }
+        table { border-collapse: collapse; }
+        
+        /* Mobile Responsive */
+        @media only screen and (max-width: 600px) {
+            .container { width: 100% !important; }
+            .content { padding: 20px !important; }
+            .details-item { display: block !important; width: 100% !important; margin-bottom: 15px; }
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1 style="color: #ffffff; margin: 0; font-size: 24px;">MANYAN IP SERVICES</h1>
-            <p style="color: #fbbf24; margin: 5px 0 0; font-size: 12px; text-transform: uppercase;">Application Received</p>
-        </div>
+<body style="background-color: #0F172A; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 40px 0;">
 
-        <div class="content">
-            <p>Dear <strong>{{ user_name }}</strong>,</p>
-            
-            <p>Thank you for choosing Manyan IP Services. We have successfully received your Trademark Application request.</p>
-            
-            <p>Our legal team has started the initial verification process. Below are your application details for future reference:</p>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+            <td align="center" style="padding: 20px;">
+                
+                <table class="container" width="600" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #1E293B; border-radius: 24px; border: 1px solid #334155; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+                    
+                    <tr>
+                        <td height="6" style="background: linear-gradient(90deg, #9b87f5, #0ea5e9);"></td>
+                    </tr>
 
-            <div class="details-box">
-                <span class="label">Application Number</span>
-                <span class="value" style="font-size: 20px; color: #1e3a8a;">{{ app_number }}</span>
+                    <tr>
+                        <td class="content" style="padding: 40px 40px 20px 40px; text-align: center;">
+                            <div style="display: inline-block; width: 60px; height: 60px; line-height: 60px; background-color: rgba(14, 165, 233, 0.15); border-radius: 50%; color: #0ea5e9; font-size: 28px; margin-bottom: 20px; border: 1px solid rgba(14, 165, 233, 0.3);">
+                                ✅
+                            </div>
+                            
+                            <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">Application Received</h1>
+                            <p style="margin: 10px 0 0; color: #94a3b8; font-size: 15px; line-height: 1.6;">
+                                Dear <strong style="color: #ffffff;">{{ user_name }}</strong>,<br>
+                                We have successfully received your trademark request.
+                            </p>
+                        </td>
+                    </tr>
 
-                <span class="label">Trademark / Brand Name</span>
-                <span class="value">{{ trademark_name }}</span>
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <div style="height: 1px; background-color: #334155; width: 100%;"></div>
+                        </td>
+                    </tr>
 
-                <span class="label">Applicant Name</span>
-                <span class="value">{{ applicant_name }}</span>
+                    <tr>
+                        <td class="content" style="padding: 30px 40px;">
+                            <p style="margin: 0 0 20px; color: #94a3b8; font-size: 14px;">
+                                Our legal team has started the initial verification. Here is your filing summary:
+                            </p>
 
-                <span class="label">Class</span>
-                <span class="value">Class {{ trademark_class }}</span>
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #0F172A; border-radius: 16px; border: 1px solid #334155;">
+                                <tr>
+                                    <td style="padding: 25px;">
+                                        
+                                        <div style="margin-bottom: 20px;">
+                                            <span style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-bottom: 5px;">Application Number</span>
+                                            <span style="display: block; font-size: 20px; color: #9b87f5; font-weight: 700; letter-spacing: 0.5px;">{{ app_number }}</span>
+                                        </div>
 
-                <span class="label">Filing Date</span>
-                <span class="value">{{ filing_date }}</span>
-            </div>
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td class="details-item" width="50%" valign="top" style="padding-bottom: 15px;">
+                                                    <span style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-bottom: 5px;">Trademark Name</span>
+                                                    <span style="color: #ffffff; font-size: 15px; font-weight: 500;">{{ trademark_name }}</span>
+                                                </td>
+                                                <td class="details-item" width="50%" valign="top" style="padding-bottom: 15px;">
+                                                    <span style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-bottom: 5px;">Filing Class</span>
+                                                    <span style="color: #ffffff; font-size: 15px; font-weight: 500;">Class {{ trademark_class }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="details-item" width="50%" valign="top">
+                                                    <span style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-bottom: 5px;">Applicant</span>
+                                                    <span style="color: #ffffff; font-size: 15px; font-weight: 500;">{{ applicant_name }}</span>
+                                                </td>
+                                                <td class="details-item" width="50%" valign="top">
+                                                    <span style="display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: bold; margin-bottom: 5px;">Date</span>
+                                                    <span style="color: #ffffff; font-size: 15px; font-weight: 500;">{{ filing_date|date:"d M Y" }}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
 
-            <p>You can track the live status of your application anytime through your dashboard.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-            <center>
-                <a href="{{ dashboard_link }}" class="button" style="background-color: #fbbf24; color: #1e3a8a; padding: 12px 25px; text-decoration: none; border-radius: 5px;">
-                    Go to Dashboard
-                </a>
-            </center>
+                    <tr>
+                        <td style="padding: 0 40px 40px 40px; text-align: center;">
+                            <p style="margin: 0 0 25px; color: #94a3b8; font-size: 14px;">
+                                You can track the live status of your application anytime.
+                            </p>
+                            
+                            <a href="{{ dashboard_link }}" style="background: #7c3aed; background: linear-gradient(90deg, #7c3aed, #2563eb); border: 1px solid #6d28d9; color: #ffffff; padding: 14px 30px; text-decoration: none; border-radius: 12px; font-weight: bold; display: inline-block; font-size: 16px; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);">
+                                Go to Dashboard &rarr;
+                            </a>
+                        </td>
+                    </tr>
 
-            <br>
-            <p>Best Regards,<br><strong>Manyan IP Legal Team</strong></p>
-        </div>
+                    <tr>
+                        <td style="background-color: #0F172A; padding: 25px; text-align: center; border-top: 1px solid #334155;">
+                            <p style="color: #475569; font-size: 12px; margin: 0; line-height: 1.5;">
+                                Best Regards,<br>
+                                <strong style="color: #64748b;">Manyan IP Legal Team</strong>
+                            </p>
+                            <p style="color: #334155; font-size: 11px; margin-top: 15px;">
+                                &copy; 2025 Manyan IP Services. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
 
-        <div class="footer">
-            <p>&copy; 2025 Manyan IP Services. All rights reserved.</p>
-        </div>
-    </div>
+                </table>
+            </td>
+        </tr>
+    </table>
+
 </body>
 </html>
